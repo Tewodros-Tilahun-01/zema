@@ -1,6 +1,13 @@
 import { Stack } from 'expo-router';
+import { SQLiteProvider } from 'expo-sqlite';
+
+import { migrateDbIfNeeded } from './db';
 import './global.css';
 
 export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <SQLiteProvider databaseName="zema.db" onInit={migrateDbIfNeeded}>
+      <Stack screenOptions={{ headerShown: false }} />
+    </SQLiteProvider>
+  );
 }
