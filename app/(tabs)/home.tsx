@@ -1,7 +1,8 @@
 import HorizontalSlider from '@/components/HorizontalSlider';
 import MusicCard, { MusicCardItem } from '@/components/MusicCard';
+import ProfileCard, { ProfileCardItem } from '@/components/ProfileCard';
 import { Ionicons } from '@expo/vector-icons';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TRENDING: MusicCardItem[] = [
@@ -49,7 +50,7 @@ const TRENDING: MusicCardItem[] = [
   },
 ];
 
-const RECENT = [
+const RECENT: ProfileCardItem[] = [
   {
     id: 'r1',
     name: 'Mr Ryval',
@@ -162,36 +163,24 @@ export default function HomeScreen() {
           renderItem={(item, index) => <MusicCard item={item} index={index} />}
         />
 
-        <View className="mt-8 rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
-          <View className="flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-white">
+        <View style={styles.card}>
+          <View className="mb-6 flex-row items-center justify-between">
+            <Text className="text-2xl font-semibold text-white">
               Recently played
             </Text>
-            <View className="h-7 w-10 items-center justify-center rounded-full bg-white/10">
-              <Ionicons name="chevron-forward" size={14} color="#E8E9F1" />
-            </View>
           </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
+          <HorizontalSlider
+            data={RECENT}
             className="mt-4"
-          >
-            {RECENT.map((item) => (
-              <View key={item.id} className="mr-4 items-center">
-                <Image
-                  source={{ uri: item.image }}
-                  className="h-14 w-14 rounded-full border border-white/10"
-                />
-                <Text className="mt-2 text-xs text-white">{item.name}</Text>
-                <Text className="text-[10px] text-white/50">{item.time}</Text>
-              </View>
-            ))}
-          </ScrollView>
+            keyExtractor={(item) => item.id}
+            renderItem={(item) => <ProfileCard item={item} />}
+            itemSeparatorWidth={16}
+          />
         </View>
 
         <View className="mt-8 rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
           <View className="flex-row items-center justify-between">
-            <Text className="text-lg font-semibold text-white">
+            <Text className="text-xl font-semibold text-white">
               Recommended Artists
             </Text>
             <View className="h-7 w-10 items-center justify-center rounded-full bg-white/10">
@@ -232,3 +221,15 @@ export default function HomeScreen() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  card: {
+    marginTop: 30,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderBottomRightRadius: 0,
+  },
+});
