@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 
-import { migrateDbIfNeeded } from './db';
+import { migrateDbIfNeeded } from '../config/db';
 import './global.css';
 
 export default function RootLayout() {

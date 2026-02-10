@@ -1,13 +1,14 @@
+import HorizontalSlider from '@/components/HorizontalSlider';
+import MusicCard, { MusicCardItem } from '@/components/MusicCard';
 import { Ionicons } from '@expo/vector-icons';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const TRENDING = [
+const TRENDING: MusicCardItem[] = [
   {
     id: 't1',
     title: 'Gloaming Drive',
     subtitle: '19k plays',
-    color: '#7C5CFF',
     image:
       'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=300&q=80',
   },
@@ -15,7 +16,6 @@ const TRENDING = [
     id: 't2',
     title: 'Private Memory',
     subtitle: '12k plays',
-    color: '#00C2A8',
     image:
       'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=300&q=80',
   },
@@ -23,7 +23,6 @@ const TRENDING = [
     id: 't3',
     title: 'Late Night',
     subtitle: '8k plays',
-    color: '#F2A94B',
     image:
       'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=300&q=80',
   },
@@ -31,7 +30,6 @@ const TRENDING = [
     id: 'tj1',
     title: 'Gloaming Drive',
     subtitle: '19k plays',
-    color: '#7C5CFF',
     image:
       'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=300&q=80',
   },
@@ -39,7 +37,6 @@ const TRENDING = [
     id: 'tj2',
     title: 'Private Memory',
     subtitle: '12k plays',
-    color: '#00C2A8',
     image:
       'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=300&q=80',
   },
@@ -47,7 +44,6 @@ const TRENDING = [
     id: 'th3',
     title: 'Late Night',
     subtitle: '8k plays',
-    color: '#F2A94B',
     image:
       'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=300&q=80',
   },
@@ -146,13 +142,10 @@ export default function HomeScreen() {
         contentContainerClassName="px-5 pb-28"
         showsVerticalScrollIndicator={false}
       >
-        <View className="flex-row items-center justify-between pt-2">
+        <View className="mt-2 mb-4 flex-row items-center justify-between">
           <View>
             <Text className="text-2xl font-semibold text-white">
               Trending playlists
-            </Text>
-            <Text className="mt-1 text-xs text-white/60">
-              Discover daily mixes
             </Text>
           </View>
           <View className="flex-row items-center gap-3">
@@ -162,39 +155,12 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
+        <HorizontalSlider
+          data={TRENDING}
           className="mt-5"
-        >
-          {TRENDING.map((item, index) => (
-            <View
-              key={item.id}
-              className="mr-4 h-48 w-40 overflow-hidden rounded-3xl border border-white/10"
-              style={{ backgroundColor: item.color }}
-            >
-              <View className="h-full w-full bg-black/30 px-4 py-4">
-                <View className="h-20 w-20 overflow-hidden rounded-2xl bg-white/15">
-                  <Image
-                    source={{ uri: item.image }}
-                    className="h-full w-full"
-                    resizeMode="cover"
-                  />
-                </View>
-                <Text className="mt-6 text-base font-semibold text-white">
-                  {item.title}
-                </Text>
-                <Text className="mt-1 text-xs text-white/70">
-                  {item.subtitle}
-                </Text>
-                <View className="mt-4 h-7 w-12 items-center justify-center rounded-full bg-black/30">
-                  <Ionicons name="play" size={12} color="#E8E9F1" />
-                </View>
-              </View>
-            </View>
-          ))}
-          <View className="w-1" />
-        </ScrollView>
+          keyExtractor={(item) => item.id}
+          renderItem={(item, index) => <MusicCard item={item} index={index} />}
+        />
 
         <View className="mt-8 rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
           <View className="flex-row items-center justify-between">
