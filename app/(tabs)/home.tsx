@@ -1,8 +1,11 @@
 import HorizontalSlider from '@/components/HorizontalSlider';
 import MusicCard, { MusicCardItem } from '@/components/MusicCard';
 import ProfileCard, { ProfileCardItem } from '@/components/ProfileCard';
+import RecommendedArtistCard, {
+  RecommendedArtistItem,
+} from '@/components/RecommendedArtistCard';
 import { Ionicons } from '@expo/vector-icons';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TRENDING: MusicCardItem[] = [
@@ -54,62 +57,63 @@ const RECENT: ProfileCardItem[] = [
   {
     id: 'r1',
     name: 'Mr Ryval',
-    time: '27m',
+    songTitle: 'mariya maria',
     image:
       'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'r2',
-    name: 'Nedriest',
-    time: '42m',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-  },
-  {
     id: 'r3',
     name: 'Rolette',
-    time: '13m',
+    songTitle: 'Moonline',
     image:
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
   },
   {
+    id: 'r2',
+    name: 'Nedriest',
+    songTitle: 'Afterglow',
+    image:
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+  },
+
+  {
     id: 'r4',
     name: 'Moza',
-    time: '1h',
+    songTitle: 'Velvet Tide',
     image:
       'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
   },
   {
     id: 'r1h',
     name: 'Mr Ryval',
-    time: '27m',
+    songTitle: 'Moonline',
     image:
       'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80',
   },
   {
     id: 'rh2',
     name: 'Nedriest',
-    time: '42m',
+    songTitle: 'Static Hearts',
     image:
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
   },
   {
     id: 'rh3',
     name: 'Rolette',
-    time: '13m',
+    songTitle: 'Neon Dust',
     image:
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
   },
   {
     id: 'rh4',
     name: 'Moza',
-    time: '1h',
+    songTitle: 'Blue Arcade',
     image:
       'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
   },
 ];
 
-const RECOMMENDED = [
+const RECOMMENDED: RecommendedArtistItem[] = [
   {
     id: 'a1',
     name: 'Ava Voz',
@@ -131,6 +135,27 @@ const RECOMMENDED = [
     image:
       'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
   },
+  {
+    id: 'h',
+    name: 'Ava Voz',
+    tag: 'Dream pop',
+    image:
+      'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    id: 'j',
+    name: 'Juno Hall',
+    tag: 'Indie soul',
+    image:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    id: 'd',
+    name: 'Mako North',
+    tag: 'Alt R&B',
+    image:
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+  },
 ];
 
 export default function HomeScreen() {
@@ -140,7 +165,7 @@ export default function HomeScreen() {
 
       <ScrollView
         className="flex-1 gap-1"
-        contentContainerClassName="px-5 pb-28"
+        contentContainerClassName="px-5 pb-12"
         showsVerticalScrollIndicator={false}
       >
         <View className="mt-2 mb-4 flex-row items-center justify-between">
@@ -163,7 +188,7 @@ export default function HomeScreen() {
           renderItem={(item, index) => <MusicCard item={item} index={index} />}
         />
 
-        <View style={styles.card}>
+        <View className="mt-8 py-4 pl-1">
           <View className="mb-6 flex-row items-center justify-between">
             <Text className="text-2xl font-semibold text-white">
               Recently played
@@ -178,10 +203,10 @@ export default function HomeScreen() {
           />
         </View>
 
-        <View className="mt-8 rounded-3xl border border-white/10 bg-white/5 px-4 py-4">
+        <View className="mt-8 px-1">
           <View className="flex-row items-center justify-between">
-            <Text className="text-xl font-semibold text-white">
-              Recommended Artists
+            <Text className="text-2xl font-semibold text-white">
+              Start Listening
             </Text>
             <View className="h-7 w-10 items-center justify-center rounded-full bg-white/10">
               <Ionicons name="options" size={14} color="#E8E9F1" />
@@ -190,30 +215,9 @@ export default function HomeScreen() {
           <Text className="mt-1 text-xs text-white/60">
             Based on your recent listens
           </Text>
-          <View className="mt-4 gap-3">
+          <View className="mt-4 gap-2">
             {RECOMMENDED.map((artist) => (
-              <View
-                key={artist.id}
-                className="flex-row items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-3"
-              >
-                <View className="flex-row items-center">
-                  <Image
-                    source={{ uri: artist.image }}
-                    className="h-10 w-10 rounded-full"
-                  />
-                  <View className="ml-3">
-                    <Text className="text-sm font-semibold text-white">
-                      {artist.name}
-                    </Text>
-                    <Text className="text-[11px] text-white/60">
-                      {artist.tag}
-                    </Text>
-                  </View>
-                </View>
-                <View className="h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                  <Ionicons name="add" size={16} color="#E8E9F1" />
-                </View>
-              </View>
+              <RecommendedArtistCard key={artist.id} item={artist} />
             ))}
           </View>
         </View>
@@ -221,15 +225,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  card: {
-    marginTop: 30,
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    backgroundColor: 'rgba(255,255,255,0.04)',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomRightRadius: 0,
-  },
-});

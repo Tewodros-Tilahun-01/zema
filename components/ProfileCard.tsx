@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native';
 export type ProfileCardItem = {
   id: string;
   name: string;
-  time: string;
+  songTitle: string;
   image: string;
 };
 
@@ -13,16 +13,19 @@ type ProfileCardProps = {
 
 export default function ProfileCard({ item }: ProfileCardProps) {
   return (
-    <View className="items-center">
-      <View className="flex h-24 w-24 items-center justify-center rounded-full bg-white/60 p-0.5">
+    <View className="items-left">
+      <View className="flex h-36 w-36 overflow-hidden rounded-lg border border-white/10">
         <Image
           source={{ uri: item.image }}
-          className="h-full w-full rounded-full border border-white/10"
+          className="h-full w-full"
+          resizeMode="cover"
         />
       </View>
 
-      <Text className="mt-2 text-xs text-white">{item.name}</Text>
-      <Text className="text-[10px] text-white/50">{item.time}</Text>
+      <Text className="mt-2 text-lg text-white capitalize">
+        {item.songTitle}
+      </Text>
+      <Text className="text-xs text-white/60">{item.name}</Text>
     </View>
   );
 }
