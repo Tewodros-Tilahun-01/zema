@@ -5,6 +5,7 @@ import RecommendedArtistCard, {
   RecommendedArtistItem,
 } from '@/components/RecommendedArtistCard';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -159,6 +160,8 @@ const RECOMMENDED: RecommendedArtistItem[] = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
     <View className="flex-1 bg-[#0B0E14]">
       <SafeAreaView />
@@ -217,7 +220,11 @@ export default function HomeScreen() {
           </Text>
           <View className="mt-4 gap-2">
             {RECOMMENDED.map((artist) => (
-              <RecommendedArtistCard key={artist.id} item={artist} />
+              <RecommendedArtistCard
+                key={artist.id}
+                item={artist}
+                onPress={() => router.push('/(player)/now-playing')}
+              />
             ))}
           </View>
         </View>

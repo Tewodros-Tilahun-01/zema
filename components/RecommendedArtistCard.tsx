@@ -1,5 +1,5 @@
 import Entypo from '@expo/vector-icons/Entypo';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 
 export type RecommendedArtistItem = {
   id: string;
@@ -10,13 +10,18 @@ export type RecommendedArtistItem = {
 
 type RecommendedArtistCardProps = {
   item: RecommendedArtistItem;
+  onPress?: () => void;
 };
 
 export default function RecommendedArtistCard({
   item,
+  onPress,
 }: RecommendedArtistCardProps) {
   return (
-    <View className="flex-row items-center justify-between py-2 pr-3">
+    <Pressable
+      className="flex-row items-center justify-between py-2 pr-3"
+      onPress={onPress}
+    >
       <View className="flex-row items-center">
         <Image source={{ uri: item.image }} className="h-16 w-16" />
         <View className="ml-3">
@@ -27,6 +32,6 @@ export default function RecommendedArtistCard({
       <View className="items-center justify-center">
         <Entypo name="dots-three-vertical" size={20} color="#ffffff99" />
       </View>
-    </View>
+    </Pressable>
   );
 }
