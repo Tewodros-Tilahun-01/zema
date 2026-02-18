@@ -14,7 +14,7 @@ export default function HorizontalSlider<T>({
   keyExtractor,
   renderItem,
   itemSeparatorWidth = 12,
-  className,
+  className = '',
 }: HorizontalSliderProps<T>) {
   return (
     <FlatList
