@@ -2,6 +2,7 @@ import { useAudioPlayerController } from '@/audio/useAudioPlayerController';
 import { useAudioVisualizer } from '@/audio/useAudioVisualizer';
 import { AlbumArt } from '@/components/player/AlbumArt';
 import { Waveform } from '@/components/player/Waveform';
+import { clamp, formatTime } from '@/utils/player';
 import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -21,21 +22,6 @@ const BAR_COUNT = 40;
 const MIN_BAR_HEIGHT = 6;
 const MAX_BAR_HEIGHT = 70;
 const ENABLE_VISUALIZER = true;
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function formatTime(seconds: number) {
-  const safeValue = Math.max(0, Math.floor(seconds));
-  const minutes = Math.floor(safeValue / 60)
-    .toString()
-    .padStart(2, '0');
-  const secs = Math.floor(safeValue % 60)
-    .toString()
-    .padStart(2, '0');
-  return `${minutes}:${secs}`;
-}
 
 export default function NowPlayingScreen() {
   const { player, status, jumpBy, seekToProgress } = useAudioPlayerController(

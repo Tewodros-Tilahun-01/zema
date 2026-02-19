@@ -1,8 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import { SharedValue } from 'react-native-reanimated';
+import { WaveBar } from './WaveBar';
 
 type WaveformProps = {
   bars: SharedValue<number[]>;
@@ -12,28 +10,6 @@ type WaveformProps = {
   enabled: boolean;
   canSample: boolean;
 };
-
-type WaveBarProps = {
-  bars: SharedValue<number[]>;
-  index: number;
-  minBarHeight: number;
-  maxBarHeight: number;
-};
-
-function WaveBar({ bars, index, minBarHeight, maxBarHeight }: WaveBarProps) {
-  const animatedStyle = useAnimatedStyle(() => {
-    const value = bars.value[index] ?? 0.14;
-    return {
-      height: minBarHeight + value * (maxBarHeight - minBarHeight),
-    };
-  }, [bars, index, maxBarHeight, minBarHeight]);
-
-  return (
-    <Animated.View
-      style={[styles.waveBar, animatedStyle]}
-    />
-  );
-}
 
 export function Waveform({
   bars,
@@ -80,12 +56,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  waveBar: {
-    width: 4,
-    opacity: 0.94,
-    borderRadius: 9999,
-    backgroundColor: '#7A58FF',
   },
   waveFallbackRow: {
     marginTop: 34,
