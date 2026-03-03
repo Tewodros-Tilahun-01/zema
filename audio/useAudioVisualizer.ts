@@ -1,17 +1,11 @@
-import {
-  requestRecordingPermissionsAsync,
-  useAudioSampleListener,
-} from 'expo-audio';
-import { Platform } from 'react-native';
+import { clamp } from '@/utils/player';
+import { requestRecordingPermissionsAsync, useAudioSampleListener } from 'expo-audio';
 import { useEffect, useRef, useState } from 'react';
+import { Platform } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
 const DEFAULT_BAR_COUNT = 40;
 const UPDATE_THROTTLE_MS = 50;
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
 
 function mapFramesToBars(frames: number[], barCount: number) {
   if (!frames.length) {

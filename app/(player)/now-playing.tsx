@@ -24,9 +24,7 @@ const MAX_BAR_HEIGHT = 70;
 const ENABLE_VISUALIZER = true;
 
 export default function NowPlayingScreen() {
-  const { player, status, jumpBy, seekToProgress } = useAudioPlayerController(
-    TRACK.source,
-  );
+  const { player, status, jumpBy, seekToProgress } = useAudioPlayerController(TRACK.source);
   const { bars, barCount, canSample } = useAudioVisualizer(player, {
     barCount: BAR_COUNT,
     enabled: ENABLE_VISUALIZER,
@@ -39,8 +37,7 @@ export default function NowPlayingScreen() {
   const elapsed = status.currentTime ?? 0;
   const duration = status.duration ?? 0;
   const progress = duration > 0 ? clamp(elapsed / duration, 0, 1) : 0;
-  const sliderProgress =
-    isSeeking && dragProgress != null ? dragProgress : progress;
+  const sliderProgress = isSeeking && dragProgress != null ? dragProgress : progress;
 
   const onSlidingStart = () => {
     if (duration <= 0) return;
@@ -58,11 +55,9 @@ export default function NowPlayingScreen() {
       if (duration > 0) {
         await seekToProgress(value);
       }
-      console.log('Seeked to', value);
     } finally {
-      console.log('Seek complete', dragProgress);
       setIsSeeking(false);
-      // setDragProgress(null);
+      setDragProgress(null);
     }
   };
 
@@ -122,11 +117,7 @@ export default function NowPlayingScreen() {
             style={styles.playButton}
             onPress={() => (status.playing ? player.pause() : player.play())}
           >
-            <Ionicons
-              name={status.playing ? 'pause' : 'play'}
-              size={30}
-              color="#1A1E2F"
-            />
+            <Ionicons name={status.playing ? 'pause' : 'play'} size={30} color="#1A1E2F" />
           </Pressable>
           <Pressable onPress={() => jumpBy(10)} style={styles.mediaAction}>
             <Ionicons name="play-forward" size={22} color="#FFFFFF" />

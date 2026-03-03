@@ -1,9 +1,7 @@
 import HorizontalSlider from '@/components/HorizontalSlider';
 import MusicCard, { MusicCardItem } from '@/components/MusicCard';
 import ProfileCard, { ProfileCardItem } from '@/components/ProfileCard';
-import RecommendedArtistCard, {
-  RecommendedArtistItem,
-} from '@/components/RecommendedArtistCard';
+import RecommendedArtistCard, { RecommendedArtistItem } from '@/components/RecommendedArtistCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
@@ -32,25 +30,25 @@ const TRENDING: MusicCardItem[] = [
       'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=300&q=80',
   },
   {
-    id: 'tj1',
-    title: 'Gloaming Drive',
-    subtitle: '19k plays',
+    id: 't4',
+    title: 'Midnight Echo',
+    subtitle: '15k plays',
     image:
-      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=300&q=80',
+      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=300&q=80',
   },
   {
-    id: 'tj2',
-    title: 'Private Memory',
-    subtitle: '12k plays',
+    id: 't5',
+    title: 'Urban Dreams',
+    subtitle: '22k plays',
     image:
-      'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=300&q=80',
+      'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&w=300&q=80',
   },
   {
-    id: 'th3',
-    title: 'Late Night',
-    subtitle: '8k plays',
+    id: 't6',
+    title: 'Sunset Vibes',
+    subtitle: '11k plays',
     image:
-      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=300&q=80',
+      'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=300&q=80',
   },
 ];
 
@@ -58,9 +56,16 @@ const RECENT: ProfileCardItem[] = [
   {
     id: 'r1',
     name: 'Mr Ryval',
-    songTitle: 'mariya maria',
+    songTitle: 'Mariya Maria',
     image:
       'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    id: 'r2',
+    name: 'Nedriest',
+    songTitle: 'Afterglow',
+    image:
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
   },
   {
     id: 'r3',
@@ -70,14 +75,6 @@ const RECENT: ProfileCardItem[] = [
       'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'r2',
-    name: 'Nedriest',
-    songTitle: 'Afterglow',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-  },
-
-  {
     id: 'r4',
     name: 'Moza',
     songTitle: 'Velvet Tide',
@@ -85,32 +82,32 @@ const RECENT: ProfileCardItem[] = [
       'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'r1h',
-    name: 'Mr Ryval',
-    songTitle: 'Moonline',
-    image:
-      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=200&q=80',
-  },
-  {
-    id: 'rh2',
-    name: 'Nedriest',
+    id: 'r5',
+    name: 'Luna Sky',
     songTitle: 'Static Hearts',
     image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'rh3',
-    name: 'Rolette',
+    id: 'r6',
+    name: 'Echo Wave',
     songTitle: 'Neon Dust',
     image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'rh4',
-    name: 'Moza',
+    id: 'r7',
+    name: 'Stellar',
     songTitle: 'Blue Arcade',
     image:
-      'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    id: 'r8',
+    name: 'Nova',
+    songTitle: 'Crystal Rain',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
   },
 ];
 
@@ -137,25 +134,25 @@ const RECOMMENDED: RecommendedArtistItem[] = [
       'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'h',
-    name: 'Ava Voz',
-    tag: 'Dream pop',
+    id: 'a4',
+    name: 'River Stone',
+    tag: 'Chillwave',
     image:
-      'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'j',
-    name: 'Juno Hall',
-    tag: 'Indie soul',
+    id: 'a5',
+    name: 'Iris Moon',
+    tag: 'Synthpop',
     image:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=200&q=80',
   },
   {
-    id: 'd',
-    name: 'Mako North',
-    tag: 'Alt R&B',
+    id: 'a6',
+    name: 'Atlas Grey',
+    tag: 'Lo-fi Hip Hop',
     image:
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=200&q=80',
   },
 ];
 
@@ -173,9 +170,7 @@ export default function HomeScreen() {
       >
         <View className="mt-2 mb-4 flex-row items-center justify-between">
           <View>
-            <Text className="text-2xl font-semibold text-white">
-              Trending playlists
-            </Text>
+            <Text className="text-2xl font-semibold text-white">Trending playlists</Text>
           </View>
           <View className="flex-row items-center gap-3">
             <View className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
@@ -193,9 +188,7 @@ export default function HomeScreen() {
 
         <View className="mt-8 py-4 pl-1">
           <View className="mb-6 flex-row items-center justify-between">
-            <Text className="text-2xl font-semibold text-white">
-              Recently played
-            </Text>
+            <Text className="text-2xl font-semibold text-white">Recently played</Text>
           </View>
           <HorizontalSlider
             data={RECENT}
@@ -208,16 +201,12 @@ export default function HomeScreen() {
 
         <View className="mt-8 px-1">
           <View className="flex-row items-center justify-between">
-            <Text className="text-2xl font-semibold text-white">
-              Start Listening
-            </Text>
+            <Text className="text-2xl font-semibold text-white">Start Listening</Text>
             <View className="h-7 w-10 items-center justify-center rounded-full bg-white/10">
               <Ionicons name="options" size={14} color="#E8E9F1" />
             </View>
           </View>
-          <Text className="mt-1 text-xs text-white/60">
-            Based on your recent listens
-          </Text>
+          <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
           <View className="mt-4 gap-2">
             {RECOMMENDED.map((artist) => (
               <RecommendedArtistCard

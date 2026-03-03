@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { memo, ReactElement, useCallback, useMemo } from 'react';
 import { FlatList, View } from 'react-native';
 
 type HorizontalSliderProps<T> = {
@@ -9,13 +9,25 @@ type HorizontalSliderProps<T> = {
   className?: string;
 };
 
-export default function HorizontalSlider<T>({
+function HorizontalSliderComponent<T>({
   data,
   keyExtractor,
   renderItem,
   itemSeparatorWidth = 12,
   className = '',
 }: HorizontalSliderProps<T>) {
+  const ItemSeparator = useCallback(
+    () => <View style={{ width: itemSeparatorWidth }} />,
+    [itemSeparatorWidth],
+  );
+
+  const ListFooter = useMemo(() => <View className="w-1" />, []);
+
+  const renderItemWrapper = useCallback(
+    ({ item, index }: { item: T; index: number }) => renderItem(item, index),
+    [renderItem],
+  );
+
   return (
     <FlatList
       data={data}
@@ -23,11 +35,11 @@ export default function HorizontalSlider<T>({
       showsHorizontalScrollIndicator={false}
       keyExtractor={keyExtractor}
       className={className}
-      renderItem={({ item, index }) => renderItem(item, index)}
-      ItemSeparatorComponent={() => (
-        <View style={{ width: itemSeparatorWidth }} />
-      )}
-      ListFooterComponent={<View className="w-1" />}
+      renderItem={renderItemWrapper}
+      ItemSeparatorComponent={ItemSeparator}
+      ListFooterComponent={ListFooter}
     />
   );
 }
+
+export default memo(HorizontalSliderComponent) as typeof HorizontalSliderComponent;

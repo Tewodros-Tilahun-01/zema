@@ -1,14 +1,7 @@
-import {
-  setAudioModeAsync,
-  useAudioPlayer,
-  useAudioPlayerStatus,
-} from 'expo-audio';
+import { clamp } from '@/utils/player';
+import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useCallback, useEffect } from 'react';
 import { AppState } from 'react-native';
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
 
 type PlayerSource = Parameters<typeof useAudioPlayer>[0];
 
@@ -54,11 +47,7 @@ export function useAudioPlayerController(source: PlayerSource) {
   const jumpBy = useCallback(
     (deltaSeconds: number) => {
       const duration = status.duration ?? 0;
-      const target = clamp(
-        (status.currentTime ?? 0) + deltaSeconds,
-        0,
-        duration,
-      );
+      const target = clamp((status.currentTime ?? 0) + deltaSeconds, 0, duration);
       void player.seekTo(target);
     },
     [player, status.currentTime, status.duration],
