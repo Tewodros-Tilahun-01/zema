@@ -19,6 +19,7 @@ export function usePlayerInitializer(track: Track) {
     setCurrentTrack(track);
     player.volume = 0.8;
     setVolume(0.8);
+
     player.play();
 
     void setAudioModeAsync({
@@ -61,5 +62,9 @@ export function usePlayerInitializer(track: Track) {
         }
       }
     });
+
+    return () => {
+      subscription.remove();
+    };
   }, [player]);
 }

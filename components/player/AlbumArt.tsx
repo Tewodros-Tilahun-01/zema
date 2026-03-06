@@ -36,7 +36,6 @@ export function AlbumArt() {
 
 const styles = StyleSheet.create({
   coverFrame: {
-    marginTop: 34,
     alignItems: 'center',
   },
   coverGlow: {
@@ -49,14 +48,14 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   coverContainer: {
-    height: 245,
-    width: 245,
+    height: 320,
+    width: 320,
     overflow: 'hidden',
     borderRadius: 20,
   },
   cover: {
-    height: 245,
-    width: 245,
+    height: 320,
+    width: 320,
     borderRadius: 20,
   },
   coverLoadingOverlay: {

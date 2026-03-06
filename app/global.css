@@ -3,3 +3,22 @@
 @import 'tailwindcss/utilities.css';
 
 @import 'nativewind/theme';
+
+/* Set a default black background and light text for web builds and the web root.
+	 The native app will get a black background from the root View in _layout.tsx.
+*/
+html,
+body,
+#root,
+.expo-root {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Ensure links and other text have readable default color */
+a,
+p,
+span,
+div {
+  color: inherit;
+}
