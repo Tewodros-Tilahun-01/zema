@@ -1,7 +1,9 @@
-import HorizontalSlider from '@/components/HorizontalSlider';
-import MusicCard, { MusicCardItem } from '@/components/MusicCard';
-import ProfileCard, { ProfileCardItem } from '@/components/ProfileCard';
-import RecommendedArtistCard, { RecommendedArtistItem } from '@/components/RecommendedArtistCard';
+import HorizontalSlider from '@/components/common/HorizontalSlider';
+import MusicCard, { MusicCardItem } from '@/components/common/MusicCard';
+import ProfileCard, { ProfileCardItem } from '@/components/common/ProfileCard';
+import RecommendedArtistCard, {
+  RecommendedArtistItem,
+} from '@/components/common/RecommendedArtistCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';

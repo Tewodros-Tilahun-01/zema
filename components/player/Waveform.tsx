@@ -1,34 +1,58 @@
+import { useAudioVisualizer } from '@/audio/useAudioVisualizer';
+import { usePlayerStore } from '@/store/playerStore';
+import { AudioPlayer } from 'expo-audio';
+import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SharedValue } from 'react-native-reanimated';
 import { WaveBar } from './WaveBar';
 
 type WaveformProps = {
-  bars: SharedValue<number[]>;
   barCount: number;
   minBarHeight: number;
   maxBarHeight: number;
   enabled: boolean;
-  canSample: boolean;
 };
 
-export function Waveform({
-  bars,
+export function Waveform({ barCount, minBarHeight, maxBarHeight, enabled }: WaveformProps) {
+  const player = usePlayerStore((state) => state.player);
+
+  // Don't render until player is ready
+  if (!player || !enabled) {
+    return null;
+  }
+
+  return (
+    <WaveformContent
+      key={player.id}
+      player={player}
+      barCount={barCount}
+      minBarHeight={minBarHeight}
+      maxBarHeight={maxBarHeight}
+    />
+  );
+}
+
+type WaveformContentProps = {
+  player: AudioPlayer;
+  barCount: number;
+  minBarHeight: number;
+  maxBarHeight: number;
+};
+
+const WaveformContent = memo(function WaveformContent({
+  player,
   barCount,
   minBarHeight,
   maxBarHeight,
-  enabled,
-  canSample,
-}: WaveformProps) {
-  if (!enabled) {
-    return null;
-  }
+}: WaveformContentProps) {
+  const { bars, canSample } = useAudioVisualizer(player, {
+    barCount,
+    enabled: true,
+  });
 
   if (!canSample) {
     return (
       <View style={styles.waveFallbackRow}>
-        <Text style={styles.waveFallbackText}>
-          Visualizer unavailable
-        </Text>
+        <Text style={styles.waveFallbackText}>Visualizer unavailable</Text>
       </View>
     );
   }
@@ -37,7 +61,7 @@ export function Waveform({
     <View style={styles.waveRow}>
       {Array.from({ length: barCount }, (_, index) => (
         <WaveBar
-          key={String(index)}
+          key={index}
           bars={bars}
           index={index}
           minBarHeight={minBarHeight}
@@ -46,7 +70,7 @@ export function Waveform({
       ))}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   waveRow: {

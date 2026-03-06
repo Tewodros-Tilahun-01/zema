@@ -1,21 +1,14 @@
+import { usePlayerStore } from '@/store/playerStore';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 
-type AlbumArtProps = {
-  artwork: string;
-  isLoading: boolean;
-  onLoadStart: () => void;
-  onLoadEnd: () => void;
-  onError: () => void;
-};
+export function AlbumArt() {
+  const currentTrack = usePlayerStore((state) => state.currentTrack);
+  const [isLoading, setIsLoading] = useState(true);
 
-export function AlbumArt({
-  artwork,
-  isLoading,
-  onLoadStart,
-  onLoadEnd,
-  onError,
-}: AlbumArtProps) {
+  if (!currentTrack) return null;
+
   return (
     <View style={styles.coverFrame}>
       <LinearGradient
@@ -24,11 +17,11 @@ export function AlbumArt({
       >
         <View style={styles.coverContainer}>
           <Image
-            source={{ uri: artwork }}
+            source={{ uri: currentTrack.artwork }}
             style={styles.cover}
-            onLoadStart={onLoadStart}
-            onLoadEnd={onLoadEnd}
-            onError={onError}
+            onLoadStart={() => setIsLoading(true)}
+            onLoadEnd={() => setIsLoading(false)}
+            onError={() => setIsLoading(false)}
           />
           {isLoading ? (
             <View style={styles.coverLoadingOverlay}>

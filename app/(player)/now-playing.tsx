@@ -1,16 +1,16 @@
-import { useAudioPlayerController } from '@/audio/useAudioPlayerController';
-import { useAudioVisualizer } from '@/audio/useAudioVisualizer';
 import { AlbumArt } from '@/components/player/AlbumArt';
+import { PlayerControls } from '@/components/player/PlayerControls';
+import { PlayerHeader } from '@/components/player/PlayerHeader';
+import { ProgressSlider } from '@/components/player/ProgressSlider';
+import { TrackInfo } from '@/components/player/TrackInfo';
 import { Waveform } from '@/components/player/Waveform';
-import { clamp, formatTime } from '@/utils/player';
-import { Ionicons } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider';
+import { usePlayerInitializer } from '@/hooks/usePlayerInitializer';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TRACK = {
+  id: 'track-1',
   title: 'Neon Weekend',
   artist: 'Juno Hall',
   artwork:
@@ -18,231 +18,46 @@ const TRACK = {
   source: require('../../assets/audio/Kanye_West_-_Runaway__Video_Version__ft._Pusha_T(256k).mp3'),
 };
 
-const BAR_COUNT = 40;
-const MIN_BAR_HEIGHT = 6;
-const MAX_BAR_HEIGHT = 70;
-const ENABLE_VISUALIZER = true;
+const VISUALIZER_CONFIG = {
+  barCount: 40,
+  minBarHeight: 6,
+  maxBarHeight: 70,
+  enabled: true,
+};
 
 export default function NowPlayingScreen() {
-  const { player, status, jumpBy, seekToProgress } = useAudioPlayerController(TRACK.source);
-  const { bars, barCount, canSample } = useAudioVisualizer(player, {
-    barCount: BAR_COUNT,
-    enabled: ENABLE_VISUALIZER,
-  });
-
-  const [isSeeking, setIsSeeking] = useState(false);
-  const [dragProgress, setDragProgress] = useState<number | null>(null);
-  const [isArtworkLoading, setIsArtworkLoading] = useState(true);
-
-  const elapsed = status.currentTime ?? 0;
-  const duration = status.duration ?? 0;
-  const progress = duration > 0 ? clamp(elapsed / duration, 0, 1) : 0;
-  const sliderProgress = isSeeking && dragProgress != null ? dragProgress : progress;
-
-  const onSlidingStart = () => {
-    if (duration <= 0) return;
-    setIsSeeking(true);
-    setDragProgress(progress);
-  };
-
-  const onValueChange = (value: number) => {
-    if (!isSeeking) return;
-    setDragProgress(value);
-  };
-
-  const onSlidingComplete = async (value: number) => {
-    try {
-      if (duration > 0) {
-        await seekToProgress(value);
-      }
-    } finally {
-      setIsSeeking(false);
-      setDragProgress(null);
-    }
-  };
-
-  const elapsedLabel = formatTime(
-    isSeeking && dragProgress != null ? dragProgress * duration : elapsed,
-  );
-  const durationLabel = useMemo(() => formatTime(duration), [duration]);
+  usePlayerInitializer(TRACK);
 
   return (
     <LinearGradient
       colors={['#07080F', '#111325', '#171821']}
       start={{ x: 0.2, y: 0 }}
       end={{ x: 0.9, y: 1 }}
-      style={{ flex: 1 }}
+      style={styles.container}
     >
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.header}>
-          <Pressable style={styles.iconCircle}>
-            <Ionicons name="arrow-back" size={18} color="#EDEDF4" />
-          </Pressable>
-          <Text style={styles.headerTitle}>Now Playing</Text>
-          <Pressable style={styles.iconCircle}>
-            <Ionicons name="musical-notes-outline" size={18} color="#EDEDF4" />
-          </Pressable>
-        </View>
-
-        <AlbumArt
-          artwork={TRACK.artwork}
-          isLoading={isArtworkLoading}
-          onLoadStart={() => setIsArtworkLoading(true)}
-          onLoadEnd={() => setIsArtworkLoading(false)}
-          onError={() => setIsArtworkLoading(false)}
-        />
-
+        <PlayerHeader />
+        <AlbumArt />
         <Waveform
-          bars={bars}
-          barCount={barCount}
-          minBarHeight={MIN_BAR_HEIGHT}
-          maxBarHeight={MAX_BAR_HEIGHT}
-          enabled={ENABLE_VISUALIZER}
-          canSample={canSample}
+          barCount={VISUALIZER_CONFIG.barCount}
+          minBarHeight={VISUALIZER_CONFIG.minBarHeight}
+          maxBarHeight={VISUALIZER_CONFIG.maxBarHeight}
+          enabled={VISUALIZER_CONFIG.enabled}
         />
-
-        <View style={styles.info}>
-          <Text style={styles.trackTitle}>{TRACK.title}</Text>
-          <Text style={styles.artist}>{TRACK.artist}</Text>
-        </View>
-
-        <View style={styles.controls}>
-          <Pressable style={styles.ghostIcon}>
-            <Ionicons name="heart-outline" size={20} color="#C9CBD8" />
-          </Pressable>
-          <Pressable onPress={() => jumpBy(-10)} style={styles.mediaAction}>
-            <Ionicons name="play-back" size={22} color="#FFFFFF" />
-          </Pressable>
-          <Pressable
-            style={styles.playButton}
-            onPress={() => (status.playing ? player.pause() : player.play())}
-          >
-            <Ionicons name={status.playing ? 'pause' : 'play'} size={30} color="#1A1E2F" />
-          </Pressable>
-          <Pressable onPress={() => jumpBy(10)} style={styles.mediaAction}>
-            <Ionicons name="play-forward" size={22} color="#FFFFFF" />
-          </Pressable>
-          <Pressable style={styles.ghostIcon}>
-            <Ionicons name="heart-outline" size={20} color="#C9CBD8" />
-          </Pressable>
-        </View>
-
-        <View style={styles.bottomRow}>
-          <Text style={styles.timerText}>{elapsedLabel}</Text>
-          <Text style={styles.timerText}>{durationLabel}</Text>
-        </View>
-
-        <Slider
-          style={styles.progressSlider}
-          minimumValue={0}
-          maximumValue={1}
-          value={sliderProgress}
-          onSlidingStart={onSlidingStart}
-          onValueChange={onValueChange}
-          onSlidingComplete={onSlidingComplete}
-          minimumTrackTintColor="#7A58FF"
-          maximumTrackTintColor="rgba(255,255,255,0.10)"
-          thumbTintColor="#FFFFFF"
-        />
+        <TrackInfo />
+        <PlayerControls />
+        <ProgressSlider />
       </SafeAreaView>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
     paddingHorizontal: 22,
-  },
-  header: {
-    marginTop: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  iconCircle: {
-    height: 36,
-    width: 36,
-    borderRadius: 9999,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.10)',
-  },
-  headerTitle: {
-    fontSize: 22,
-    fontWeight: '600',
-    color: '#F8F8FC',
-    letterSpacing: 0.2,
-  },
-  info: {
-    marginTop: 28,
-    alignItems: 'center',
-  },
-  trackTitle: {
-    fontSize: 21,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    letterSpacing: 0.3,
-  },
-  artist: {
-    marginTop: 5,
-    fontSize: 13,
-    color: 'rgba(255,255,255,0.6)',
-    textTransform: 'uppercase',
-    letterSpacing: 0.6,
-  },
-  controls: {
-    marginTop: 32,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  ghostIcon: {
-    height: 38,
-    width: 38,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-  },
-  mediaAction: {
-    height: 44,
-    width: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-    backgroundColor: 'rgba(255,255,255,0.10)',
-  },
-  playButton: {
-    height: 82,
-    width: 82,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#A38BFF',
-    shadowOpacity: 0.55,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 12,
-  },
-  bottomRow: {
-    marginTop: 26,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  timerText: {
-    minWidth: 42,
-    textAlign: 'right',
-    fontSize: 12,
-    color: 'rgba(255,255,255,0.45)',
-    letterSpacing: 0.6,
-  },
-  progressSlider: {
-    marginTop: 12,
-    width: '65%',
-    height: 24,
-    marginHorizontal: 'auto',
-    transform: [{ scale: 1.7 }],
   },
 });
