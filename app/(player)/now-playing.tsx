@@ -8,13 +8,13 @@ import { usePlayerInitializer } from '@/hooks/usePlayerInitializer';
 import { usePlayerStore } from '@/store/playerStore';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TRENDING } from '../(tabs)/home';
 
 const TRACK = {
   id: 'track-1',
   title: 'Neon Weekend',
   artist: 'Juno Hall',
-  artwork:
-    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=700&q=80',
+  artwork: TRENDING[1].image,
   source: require('../../assets/audio/Kanye_West_-_Runaway__Video_Version__ft._Pusha_T(256k).mp3'),
 };
 

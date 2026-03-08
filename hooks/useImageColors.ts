@@ -43,9 +43,9 @@ export function useImageColors(imageUri: string | null) {
         if (Platform.OS === 'android') {
           if (result.platform === 'android') {
             extractedColors = {
-              primary: result.dominant || DEFAULT_COLORS.primary,
+              primary: result.average || DEFAULT_COLORS.primary,
               secondary: result.average || DEFAULT_COLORS.secondary,
-              background: result.darkVibrant || DEFAULT_COLORS.background,
+              background: result.darkMuted || DEFAULT_COLORS.background,
             };
           } else {
             extractedColors = DEFAULT_COLORS;
@@ -53,7 +53,7 @@ export function useImageColors(imageUri: string | null) {
         } else if (Platform.OS === 'ios') {
           if (result.platform === 'ios') {
             extractedColors = {
-              primary: result.primary || DEFAULT_COLORS.primary,
+              primary: result.secondary || DEFAULT_COLORS.primary,
               secondary: result.secondary || DEFAULT_COLORS.secondary,
               background: result.background || DEFAULT_COLORS.background,
             };

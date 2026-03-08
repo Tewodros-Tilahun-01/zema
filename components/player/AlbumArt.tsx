@@ -1,5 +1,4 @@
 import { usePlayerStore } from '@/store/playerStore';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 
@@ -11,10 +10,7 @@ export function AlbumArt() {
 
   return (
     <View style={styles.coverFrame}>
-      <LinearGradient
-        colors={['rgba(105,165,255,0.75)', 'rgba(184,112,255,0.9)']}
-        style={styles.coverGlow}
-      >
+      <View style={styles.coverGlow}>
         <View style={styles.coverContainer}>
           <Image
             source={{ uri: currentTrack.artwork }}
@@ -29,7 +25,7 @@ export function AlbumArt() {
             </View>
           ) : null}
         </View>
-      </LinearGradient>
+      </View>
     </View>
   );
 }
@@ -40,12 +36,11 @@ const styles = StyleSheet.create({
   },
   coverGlow: {
     borderRadius: 24,
-    padding: 3,
-    shadowColor: '#8A71FF',
-    shadowOpacity: 0.45,
+    padding: 2,
+    shadowOpacity: 0.3,
     shadowRadius: 22,
     shadowOffset: { width: 0, height: 0 },
-    elevation: 10,
+    elevation: 4,
   },
   coverContainer: {
     height: 320,

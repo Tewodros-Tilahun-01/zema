@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const TRENDING: MusicCardItem[] = [
+export const TRENDING: MusicCardItem[] = [
   {
     id: 't1',
     title: 'Gloaming Drive',
@@ -54,7 +54,7 @@ const TRENDING: MusicCardItem[] = [
   },
 ];
 
-const RECENT: ProfileCardItem[] = [
+export const RECENT: ProfileCardItem[] = [
   {
     id: 'r1',
     name: 'Mr Ryval',
@@ -113,7 +113,7 @@ const RECENT: ProfileCardItem[] = [
   },
 ];
 
-const RECOMMENDED: RecommendedArtistItem[] = [
+export const RECOMMENDED: RecommendedArtistItem[] = [
   {
     id: 'a1',
     name: 'Ava Voz',

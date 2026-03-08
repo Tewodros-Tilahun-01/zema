@@ -7,7 +7,12 @@ import './global.css';
 export default function RootLayout() {
   return (
     <SQLiteProvider databaseName="zema.db" onInit={migrateDbIfNeeded}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: '#0B0E14' },
+        }}
+      />
     </SQLiteProvider>
   );
 }
