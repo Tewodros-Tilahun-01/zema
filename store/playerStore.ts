@@ -1,13 +1,6 @@
+import { Track } from '@/types/deezer';
 import { AudioPlayer } from 'expo-audio';
 import { create } from 'zustand';
-
-export type Track = {
-  id: string;
-  title: string;
-  artist: string;
-  artwork: string;
-  source: any;
-};
 
 type PlayerState = {
   // Audio state
@@ -28,7 +21,8 @@ type PlayerState = {
     isPlaying?: boolean;
   }) => void;
   setVolume: (volume: number) => void;
-  setCurrentTrack: (track: Track | null) => void;
+  playTrack: (track: Track) => void;
+  togglePlayPause: () => void;
   reset: () => void;
 
   // Computed
@@ -60,7 +54,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     set({ volume });
   },
 
-  setCurrentTrack: (currentTrack) => set({ currentTrack }),
+  playTrack: (track) => {
+    console.log('🎵 Playing track:', track.title);
+    set({ currentTrack: track, isPlaying: true, currentTime: 0 });
+  },
+
+  togglePlayPause: () => {
+    set((state) => ({ isPlaying: !state.isPlaying }));
+  },
 
   reset: () => set(initialState),
 

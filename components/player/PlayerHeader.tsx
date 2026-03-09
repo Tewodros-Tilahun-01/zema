@@ -1,18 +1,19 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export function PlayerHeader() {
-  const router = useRouter();
+type PlayerHeaderProps = {
+  onCollapse?: () => void;
+};
 
+export function PlayerHeader({ onCollapse }: PlayerHeaderProps) {
   return (
     <View style={styles.header}>
-      <Pressable style={styles.iconCircle} onPress={() => router.back()}>
-        <Ionicons name="arrow-back" size={18} color="#EDEDF4" />
+      <Pressable style={styles.iconCircle} onPress={onCollapse}>
+        <Ionicons name="chevron-down" size={24} color="#EDEDF4" />
       </Pressable>
       <Text style={styles.headerTitle}>Now Playing</Text>
       <Pressable style={styles.iconCircle}>
-        <Ionicons name="musical-notes-outline" size={18} color="#EDEDF4" />
+        <Ionicons name="ellipsis-horizontal" size={24} color="#EDEDF4" />
       </Pressable>
     </View>
   );
@@ -21,6 +22,7 @@ export function PlayerHeader() {
 const styles = StyleSheet.create({
   header: {
     marginTop: 12,
+    paddingBottom: 18,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255,255,255,0.10)',
+    backdropFilter: 'blur(30px)',
   },
   headerTitle: {
     fontSize: 22,

@@ -6,20 +6,12 @@ import { Pressable, StyleSheet, View } from 'react-native';
 export function PlayerControls() {
   const player = usePlayerStore((state) => state.player);
   const isPlaying = usePlayerStore((state) => state.isPlaying);
+  const togglePlayPause = usePlayerStore((state) => state.togglePlayPause);
   const currentTime = usePlayerStore((state) => state.currentTime);
   const duration = usePlayerStore((state) => state.duration);
 
-  const togglePlayPause = () => {
-    if (!player) return;
-    try {
-      if (isPlaying) {
-        player.pause();
-      } else {
-        player.play();
-      }
-    } catch (error) {
-      console.error('Error toggling playback:', error);
-    }
+  const handleTogglePlayPause = () => {
+    togglePlayPause();
   };
 
   const jumpBy = (deltaSeconds: number) => {
@@ -40,7 +32,7 @@ export function PlayerControls() {
       <Pressable onPress={() => jumpBy(-10)} style={styles.mediaAction}>
         <Ionicons name="play-back" size={22} color="#FFFFFF" />
       </Pressable>
-      <Pressable style={styles.playButton} onPress={togglePlayPause}>
+      <Pressable style={styles.playButton} onPress={handleTogglePlayPause}>
         <Ionicons name={isPlaying ? 'pause' : 'play'} size={30} color="#1A1E2F" />
       </Pressable>
       <Pressable onPress={() => jumpBy(10)} style={styles.mediaAction}>

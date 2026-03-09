@@ -1,70 +1,85 @@
-import { Track, usePlayerStore } from '@/store/playerStore';
+import { usePlayerStore } from '@/store/playerStore';
 import { setAudioModeAsync, useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
-import { useEffect } from 'react';
-import { AppState } from 'react-native';
+import { useEffect, useRef } from 'react';
 
-export function usePlayerInitializer(track: Track) {
-  const player = useAudioPlayer(track.source, { updateInterval: 60 });
+export function useAudioPlayback() {
+  const currentTrack = usePlayerStore((state) => state.currentTrack);
+  const isPlaying = usePlayerStore((state) => state.isPlaying);
+  const updatePlaybackState = usePlayerStore((state) => state.updatePlaybackState);
+  const setPlayer = usePlayerStore((state) => state.setPlayer);
+
+  const currentTrackIdRef = useRef<number | null>(null);
+  const isPlayingRef = useRef<boolean>(false);
+
+  // Create audio player when track changes
+  const audioSource = currentTrack?.preview || null;
+  const player = useAudioPlayer(audioSource, { updateInterval: 100 });
   const status = useAudioPlayerStatus(player);
 
-  const setPlayer = usePlayerStore((state) => state.setPlayer);
-  const updatePlaybackState = usePlayerStore((state) => state.updatePlaybackState);
-  const setVolume = usePlayerStore((state) => state.setVolume);
-  const setCurrentTrack = usePlayerStore((state) => state.setCurrentTrack);
-  const reset = usePlayerStore((state) => state.reset);
-
-  // Initialize player on mount
+  // When track changes, reset and start playing
   useEffect(() => {
-    setPlayer(player);
-    setCurrentTrack(track);
-    player.volume = 0.8;
-    setVolume(0.8);
+    if (currentTrack && currentTrack.id !== currentTrackIdRef.current) {
+      currentTrackIdRef.current = currentTrack.id;
+      isPlayingRef.current = true;
+      console.log('🎵 Track changed:', currentTrack.title);
+      console.log('🎵 Preview URL:', currentTrack.preview);
 
-    player.play();
+      // Start playing the new track
+      if (player && isPlaying) {
+        console.log('▶️ Auto-starting new track');
+        try {
+          player.play();
+        } catch (error) {
+          console.error('❌ Playback error:', error);
+        }
+      }
+    }
+  }, [currentTrack, player, isPlaying]);
 
+  // Store player reference
+  useEffect(() => {
+    if (player) {
+      setPlayer(player);
+    }
+  }, [player, setPlayer]);
+
+  // Configure audio mode once
+  useEffect(() => {
     void setAudioModeAsync({
       playsInSilentMode: true,
       shouldPlayInBackground: true,
     });
+  }, []);
 
-    // Cleanup on unmount
-    return () => {
-      try {
+  // Handle play/pause based on store state - only when it actually changes
+  useEffect(() => {
+    if (!player || !currentTrack) return;
+
+    // Only act if isPlaying state actually changed
+    if (isPlaying !== isPlayingRef.current) {
+      isPlayingRef.current = isPlaying;
+
+      if (isPlaying) {
+        console.log('▶️ Starting playback');
+        try {
+          player.play();
+        } catch (error) {
+          console.error('❌ Playback error:', error);
+        }
+      } else {
+        console.log('⏸️ Pausing playback');
         player.pause();
-      } catch (error) {
-        // Ignore if already released
       }
-      reset();
-    };
-  }, [player, setPlayer, setCurrentTrack, setVolume, track, reset]);
+    }
+  }, [isPlaying, player, currentTrack]);
 
-  // Sync status to store
+  // Sync playback status to store - but don't update isPlaying to avoid loop
   useEffect(() => {
     updatePlaybackState({
       currentTime: status.currentTime ?? 0,
       duration: status.duration ?? 0,
-      isPlaying: status.playing ?? false,
     });
-  }, [status.currentTime, status.duration, status.playing, updatePlaybackState]);
+  }, [status.currentTime, status.duration, updatePlaybackState]);
 
-  // Handle app state changes
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (state) => {
-      if (state !== 'active') {
-        try {
-          player.pause();
-        } catch (error) {
-          const message = String(error);
-          if (message.includes('already released')) {
-            return;
-          }
-          console.error('Error pausing player:', error);
-        }
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [player]);
+  return { player, status };
 }

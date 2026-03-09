@@ -9,7 +9,7 @@ export function TrackInfo() {
   return (
     <View style={styles.info}>
       <Text style={styles.trackTitle}>{currentTrack.title}</Text>
-      <Text style={styles.artist}>{currentTrack.artist}</Text>
+      <Text style={styles.artist}>{currentTrack.artist.name}</Text>
     </View>
   );
 }

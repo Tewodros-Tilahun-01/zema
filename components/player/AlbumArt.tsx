@@ -13,7 +13,7 @@ export function AlbumArt() {
       <View style={styles.coverGlow}>
         <View style={styles.coverContainer}>
           <Image
-            source={{ uri: currentTrack.artwork }}
+            source={{ uri: currentTrack.album.cover_xl }}
             style={styles.cover}
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
