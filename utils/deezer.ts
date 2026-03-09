@@ -1,8 +1,13 @@
 import { deezerApi } from '@/config/axios';
-import { DeezerPlaylistResponse } from '@/types/deezer';
+import { DeezerPlaylistResponse, DeezerTracksResponse } from '@/types/deezer';
 
 export async function fetchTrendingPlaylists(): Promise<DeezerPlaylistResponse> {
   const { data } = await deezerApi.get<DeezerPlaylistResponse>('/chart/0/playlists');
 
+  return data;
+}
+
+export async function fetchTopTracks(): Promise<DeezerTracksResponse> {
+  const { data } = await deezerApi.get<DeezerTracksResponse>('/chart/0/tracks');
   return data;
 }
