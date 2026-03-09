@@ -14,7 +14,7 @@ const TRACK = {
   id: 'track-1',
   title: 'Neon Weekend',
   artist: 'Juno Hall',
-  artwork: TRENDING[0].image,
+  artwork: TRENDING[1].image,
   source: require('../../assets/audio/Kanye_West_-_Runaway__Video_Version__ft._Pusha_T(256k).mp3'),
 };
 

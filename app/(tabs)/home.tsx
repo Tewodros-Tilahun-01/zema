@@ -1,12 +1,10 @@
-import HorizontalSlider from '@/components/common/HorizontalSlider';
-import MusicCard, { MusicCardItem } from '@/components/common/MusicCard';
-import ProfileCard, { ProfileCardItem } from '@/components/common/ProfileCard';
-import RecommendedArtistCard, {
-  RecommendedArtistItem,
-} from '@/components/common/RecommendedArtistCard';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { ScrollView, Text, View } from 'react-native';
+import { MusicCardItem } from '@/components/common/MusicCard';
+import { ProfileCardItem } from '@/components/common/ProfileCard';
+import { RecommendedArtistItem } from '@/components/common/RecommendedArtistCard';
+import RecentPlayed from '@/components/home/RecentPlayed';
+import TopTracks from '@/components/home/TopTracks';
+import TrendingPlaylists from '@/components/home/TrendingPlaylists';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const TRENDING: MusicCardItem[] = [
@@ -159,8 +157,6 @@ export const RECOMMENDED: RecommendedArtistItem[] = [
 ];
 
 export default function HomeScreen() {
-  const router = useRouter();
-
   return (
     <View className="flex-1 bg-[#0B0E14]">
       <SafeAreaView />
@@ -170,54 +166,16 @@ export default function HomeScreen() {
         contentContainerClassName="px-5 pb-12"
         showsVerticalScrollIndicator={false}
       >
-        <View className="mt-2 mb-4 flex-row items-center justify-between">
-          <View>
-            <Text className="text-2xl font-semibold text-white">Trending playlists</Text>
-          </View>
-          <View className="flex-row items-center gap-3">
-            <View className="h-9 w-9 items-center justify-center rounded-full bg-white/10">
-              <Ionicons name="search" size={18} color="#E8E9F1" />
-            </View>
-          </View>
+        <View className="mt-2">
+          <TrendingPlaylists data={TRENDING} />
         </View>
 
-        <HorizontalSlider
-          data={TRENDING}
-          className="mt-5"
-          keyExtractor={(item) => item.id}
-          renderItem={(item, index) => <MusicCard item={item} index={index} />}
-        />
-
-        <View className="mt-8 py-4 pl-1">
-          <View className="mb-6 flex-row items-center justify-between">
-            <Text className="text-2xl font-semibold text-white">Recently played</Text>
-          </View>
-          <HorizontalSlider
-            data={RECENT}
-            className="mt-4"
-            keyExtractor={(item) => item.id}
-            renderItem={(item) => <ProfileCard item={item} />}
-            itemSeparatorWidth={16}
-          />
+        <View className="mt-8">
+          <TopTracks data={RECENT} />
         </View>
 
-        <View className="mt-8 px-1">
-          <View className="flex-row items-center justify-between">
-            <Text className="text-2xl font-semibold text-white">Start Listening</Text>
-            <View className="h-7 w-10 items-center justify-center rounded-full bg-white/10">
-              <Ionicons name="options" size={14} color="#E8E9F1" />
-            </View>
-          </View>
-          <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
-          <View className="mt-4 gap-2">
-            {RECOMMENDED.map((artist) => (
-              <RecommendedArtistCard
-                key={artist.id}
-                item={artist}
-                onPress={() => router.push('/(player)/now-playing')}
-              />
-            ))}
-          </View>
+        <View className="mt-8">
+          <RecentPlayed data={RECOMMENDED} />
         </View>
       </ScrollView>
     </View>
