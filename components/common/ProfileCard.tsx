@@ -1,11 +1,5 @@
+import { ProfileCardItem } from '@/types/components';
 import { Image, Text, View } from 'react-native';
-
-export type ProfileCardItem = {
-  id: string;
-  name: string;
-  songTitle: string;
-  image: string;
-};
 
 type ProfileCardProps = {
   item: ProfileCardItem;

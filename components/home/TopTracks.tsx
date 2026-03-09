@@ -1,5 +1,6 @@
 import HorizontalSlider from '@/components/common/HorizontalSlider';
-import ProfileCard, { ProfileCardItem } from '@/components/common/ProfileCard';
+import ProfileCard from '@/components/common/ProfileCard';
+import { ProfileCardItem } from '@/types/components';
 import { Text, View } from 'react-native';
 
 type TopTracksProps = {

@@ -1,56 +1,10 @@
-import { MusicCardItem } from '@/components/common/MusicCard';
-import { ProfileCardItem } from '@/components/common/ProfileCard';
-import { RecommendedArtistItem } from '@/components/common/RecommendedArtistCard';
 import RecentPlayed from '@/components/home/RecentPlayed';
 import TopTracks from '@/components/home/TopTracks';
 import TrendingPlaylists from '@/components/home/TrendingPlaylists';
-import { ScrollView, View } from 'react-native';
+import { useTrendingPlaylists } from '@/hooks/useTrendingPlaylists';
+import { ProfileCardItem, RecommendedArtistItem } from '@/types/components';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-export const TRENDING: MusicCardItem[] = [
-  {
-    id: 't1',
-    title: 'Gloaming Drive',
-    subtitle: '19k plays',
-    image:
-      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 't2',
-    title: 'Private Memory',
-    subtitle: '12k plays',
-    image:
-      'https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 't3',
-    title: 'Late Night',
-    subtitle: '8k plays',
-    image:
-      'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 't4',
-    title: 'Midnight Echo',
-    subtitle: '15k plays',
-    image:
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 't5',
-    title: 'Urban Dreams',
-    subtitle: '22k plays',
-    image:
-      'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    id: 't6',
-    title: 'Sunset Vibes',
-    subtitle: '11k plays',
-    image:
-      'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=300&q=80',
-  },
-];
 
 export const RECENT: ProfileCardItem[] = [
   {
@@ -157,6 +111,8 @@ export const RECOMMENDED: RecommendedArtistItem[] = [
 ];
 
 export default function HomeScreen() {
+  const { data: trendingPlaylists, isLoading, isError } = useTrendingPlaylists();
+
   return (
     <View className="flex-1 bg-[#0B0E14]">
       <SafeAreaView />
@@ -167,7 +123,13 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View className="mt-2">
-          <TrendingPlaylists data={TRENDING} />
+          {isLoading ? (
+            <View className="h-48 items-center justify-center">
+              <ActivityIndicator size="large" color="#E8E9F1" />
+            </View>
+          ) : (
+            <TrendingPlaylists data={trendingPlaylists || []} />
+          )}
         </View>
 
         <View className="mt-8">

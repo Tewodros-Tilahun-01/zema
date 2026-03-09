@@ -1,12 +1,6 @@
+import { RecommendedArtistItem } from '@/types/components';
 import Entypo from '@expo/vector-icons/Entypo';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-
-export type RecommendedArtistItem = {
-  id: string;
-  name: string;
-  tag: string;
-  image: string;
-};
 
 type RecommendedArtistCardProps = {
   item: RecommendedArtistItem;

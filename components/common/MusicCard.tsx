@@ -1,51 +1,20 @@
+import { MusicCardItem } from '@/types/components';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ColorValue, Image, StyleSheet, Text, View } from 'react-native';
-
-export type MusicCardItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  image: string;
-};
 
 type MusicCardProps = {
   item: MusicCardItem;
   index: number;
 };
 
-const GRADIENTS: ReadonlyArray<readonly [ColorValue, ColorValue, ColorValue]> =
-  [
-    [
-      'rgba(43, 33, 130, 0.55)',
-      'rgba(97, 90, 255, 0.7)',
-      'rgba(144, 125, 255, 0.85)',
-    ],
-    [
-      'rgba(0, 120, 104, 0.55)',
-      'rgba(0, 182, 161, 0.7)',
-      'rgba(64, 219, 198, 0.85)',
-    ],
-    [
-      'rgba(150, 92, 20, 0.55)',
-      'rgba(218, 150, 60, 0.7)',
-      'rgba(255, 196, 110, 0.85)',
-    ],
-    [
-      'rgba(34, 90, 120, 0.55)',
-      'rgba(72, 150, 198, 0.7)',
-      'rgba(140, 210, 235, 0.85)',
-    ],
-    [
-      'rgba(90, 44, 120, 0.55)',
-      'rgba(150, 92, 200, 0.7)',
-      'rgba(210, 160, 240, 0.85)',
-    ],
-    [
-      'rgba(120, 80, 30, 0.55)',
-      'rgba(190, 130, 60, 0.7)',
-      'rgba(235, 190, 120, 0.85)',
-    ],
-  ];
+const GRADIENTS: ReadonlyArray<readonly [ColorValue, ColorValue, ColorValue]> = [
+  ['rgba(43, 33, 130, 0.55)', 'rgba(97, 90, 255, 0.7)', 'rgba(144, 125, 255, 0.85)'],
+  ['rgba(0, 120, 104, 0.55)', 'rgba(0, 182, 161, 0.7)', 'rgba(64, 219, 198, 0.85)'],
+  ['rgba(150, 92, 20, 0.55)', 'rgba(218, 150, 60, 0.7)', 'rgba(255, 196, 110, 0.85)'],
+  ['rgba(34, 90, 120, 0.55)', 'rgba(72, 150, 198, 0.7)', 'rgba(140, 210, 235, 0.85)'],
+  ['rgba(90, 44, 120, 0.55)', 'rgba(150, 92, 200, 0.7)', 'rgba(210, 160, 240, 0.85)'],
+  ['rgba(120, 80, 30, 0.55)', 'rgba(190, 130, 60, 0.7)', 'rgba(235, 190, 120, 0.85)'],
+];
 
 export default function MusicCard({ item, index }: MusicCardProps) {
   const gradient = GRADIENTS[index % GRADIENTS.length];
@@ -59,11 +28,7 @@ export default function MusicCard({ item, index }: MusicCardProps) {
         style={styles.inner}
       >
         <View style={styles.imageWrapper}>
-          <Image
-            source={{ uri: item.image }}
-            style={styles.image}
-            resizeMode="cover"
-          />
+          <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
         </View>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.subtitle}>{item.subtitle}</Text>

@@ -1,6 +1,5 @@
-import RecommendedArtistCard, {
-  RecommendedArtistItem,
-} from '@/components/common/RecommendedArtistCard';
+import RecommendedArtistCard from '@/components/common/RecommendedArtistCard';
+import { RecommendedArtistItem } from '@/types/components';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Text, View } from 'react-native';

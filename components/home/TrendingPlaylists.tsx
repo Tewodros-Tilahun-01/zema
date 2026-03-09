@@ -1,10 +1,11 @@
 import HorizontalSlider from '@/components/common/HorizontalSlider';
-import MusicCard, { MusicCardItem } from '@/components/common/MusicCard';
+import MusicCard from '@/components/common/MusicCard';
+import { DeezerPlaylist } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View } from 'react-native';
 
 type TrendingPlaylistsProps = {
-  data: MusicCardItem[];
+  data: DeezerPlaylist[];
 };
 
 export default function TrendingPlaylists({ data }: TrendingPlaylistsProps) {
@@ -22,8 +23,18 @@ export default function TrendingPlaylists({ data }: TrendingPlaylistsProps) {
       <HorizontalSlider
         data={data}
         className="mt-5"
-        keyExtractor={(item) => item.id}
-        renderItem={(item, index) => <MusicCard item={item} index={index} />}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={(item, index) => (
+          <MusicCard
+            item={{
+              id: item.id.toString(),
+              title: item.title,
+              subtitle: `${item.nb_tracks} tracks`,
+              image: item.picture_medium,
+            }}
+            index={index}
+          />
+        )}
       />
     </View>
   );
