@@ -1,87 +1,103 @@
-import { usePlayerStore } from '@/store/playerStore';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { StyleSheet, useWindowDimensions } from 'react-native';
+import { Portal } from '@gorhom/portal';
+import { useCallback } from 'react';
+import { Dimensions, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 import { FullPlayer } from './FullPlayer';
-import { MiniPlayer } from './MiniPlayer';
 
-export function BottomSheetPlayer() {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const currentTrack = usePlayerStore((state) => state.currentTrack);
-  const [currentSnapIndex, setCurrentSnapIndex] = useState(0);
-  const { width, height } = useWindowDimensions();
+type BottomSheetPlayerProps = {
+  isVisible: boolean;
+  onCollapse: () => void;
+};
 
-  // Define snap points: mini player (70px) sits above tabs, full player (100% of screen)
-  const snapPoints = useMemo(() => [70, '100%'], []); // Mini player height only
+const { height: screenHeight } = Dimensions.get('window');
 
-  const handleSheetChanges = useCallback((index: number) => {
-    setCurrentSnapIndex(index);
-  }, []);
+export function BottomSheetPlayer({ isVisible, onCollapse }: BottomSheetPlayerProps) {
+  const translateY = useSharedValue(0);
 
-  const handleExpand = useCallback(() => {
-    bottomSheetRef.current?.snapToIndex(1);
-  }, []);
+  const panGesture = Gesture.Pan()
+    .minDistance(20)
+    .shouldCancelWhenOutside(false)
+    .onUpdate((event) => {
+      // Only allow downward dragging
+      if (event.translationY > 0) {
+        translateY.value = event.translationY;
+      }
+    })
+    .onEnd((event) => {
+      const threshold = screenHeight * 0.2;
 
-  const handleCollapse = useCallback(() => {
-    bottomSheetRef.current?.snapToIndex(0);
-  }, []);
-  // Custom backdrop that only shows when expanded
-  const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={0} appearsOnIndex={1} opacity={0.5} />
-    ),
-    [],
-  );
+      if (event.translationY > threshold || event.velocityY > 500) {
+        translateY.value = withTiming(screenHeight, { duration: 250 }, (finished) => {
+          if (finished) {
+            runOnJS(onCollapse)();
+          }
+        });
+      } else {
+        translateY.value = withSpring(0, {
+          damping: 50,
+          stiffness: 120,
+          mass: 1.2,
+        });
+      }
+    });
 
-  if (!currentTrack) return null;
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+    };
+  });
 
-  const isMiniPlayer = currentSnapIndex === 0;
+  const handleBackdropPress = useCallback(() => {
+    onCollapse();
+  }, [onCollapse]);
 
-  let bottomInset = isMiniPlayer ? 90 : 0;
+  const handleHeaderCollapse = useCallback(() => {
+    onCollapse();
+  }, [onCollapse]);
+
+  if (!isVisible) return null;
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      index={0}
-      snapPoints={snapPoints}
-      onChange={handleSheetChanges}
-      enablePanDownToClose={false}
-      backgroundStyle={styles.bottomSheetBackground}
-      handleComponent={null}
-      style={styles.bottomSheet}
-      topInset={0}
-      backdropComponent={renderBackdrop}
-      enableOverDrag={false}
-      bottomInset={bottomInset}
-    >
-      <BottomSheetView
-        style={
-          isMiniPlayer ? styles.miniContainer : { ...styles.fullContainer, minHeight: height + 40 }
-        }
-      >
-        {isMiniPlayer ? (
-          <MiniPlayer onExpand={handleExpand} />
-        ) : (
-          <FullPlayer onCollapse={handleCollapse} />
-        )}
-      </BottomSheetView>
-    </BottomSheet>
+    <Portal>
+      <View style={styles.overlay}>
+        {/* Backdrop */}
+        <TouchableWithoutFeedback onPress={handleBackdropPress}>
+          <View style={styles.backdrop} />
+        </TouchableWithoutFeedback>
+
+        {/* Draggable Content */}
+        <GestureDetector gesture={panGesture}>
+          <Animated.View style={[styles.container, animatedStyle]}>
+            <FullPlayer onCollapse={handleHeaderCollapse} />
+          </Animated.View>
+        </GestureDetector>
+      </View>
+    </Portal>
   );
 }
 
 const styles = StyleSheet.create({
-  bottomSheet: {
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: 1000,
   },
-  bottomSheetBackground: {
-    backgroundColor: '#1C1C1E',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+  backdrop: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-  miniContainer: {
-    height: 70,
-  },
-  fullContainer: {
+  container: {
     flex: 1,
+    backgroundColor: '#1C1C1E',
   },
 });

@@ -30,7 +30,9 @@ export default function MusicCard({ item, index }: MusicCardProps) {
         <View style={styles.imageWrapper}>
           <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
         </View>
-        <Text style={styles.title}>{item.title}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
+          {item.title}
+        </Text>
         <Text style={styles.subtitle}>{item.subtitle}</Text>
       </LinearGradient>
     </View>

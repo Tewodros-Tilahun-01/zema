@@ -7,7 +7,7 @@ type ProfileCardProps = {
 
 export default function ProfileCard({ item }: ProfileCardProps) {
   return (
-    <View className="items-left">
+    <View className="items-left w-42 overflow-hidden">
       <View className="flex h-42 w-42 overflow-hidden rounded-lg border border-white/10">
         <Image source={{ uri: item.image }} className="h-full w-full" resizeMode="cover" />
       </View>
