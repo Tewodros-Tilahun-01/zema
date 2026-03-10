@@ -1,10 +1,12 @@
 import RecentPlayed from '@/components/home/RecentPlayed';
 import TopTracks from '@/components/home/TopTracks';
+import TopTracksSkeleton from '@/components/home/TopTracksSkeleton';
 import TrendingPlaylists from '@/components/home/TrendingPlaylists';
+import TrendingPlaylistsSkeleton from '@/components/home/TrendingPlaylistsSkeleton';
 import { useTopTracks } from '@/hooks/useTopTracks';
 import { useTrendingPlaylists } from '@/hooks/useTrendingPlaylists';
 import { RecommendedArtistItem } from '@/types/components';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const RECOMMENDED: RecommendedArtistItem[] = [
@@ -67,22 +69,14 @@ export default function HomeScreen() {
       >
         <View className="mt-2">
           {isLoadingPlaylists ? (
-            <View className="h-48 items-center justify-center">
-              <ActivityIndicator size="large" color="#E8E9F1" />
-            </View>
+            <TrendingPlaylistsSkeleton />
           ) : (
             <TrendingPlaylists data={trendingPlaylists || []} />
           )}
         </View>
 
         <View className="mt-8">
-          {isLoadingTracks ? (
-            <View className="h-48 items-center justify-center">
-              <ActivityIndicator size="large" color="#E8E9F1" />
-            </View>
-          ) : (
-            <TopTracks data={topTracks || []} />
-          )}
+          {isLoadingTracks ? <TopTracksSkeleton /> : <TopTracks data={topTracks || []} />}
         </View>
 
         <View className="mt-8">
