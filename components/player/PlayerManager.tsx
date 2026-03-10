@@ -1,6 +1,6 @@
 import { usePlayerStore } from '@/store/playerStore';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import { BottomSheetPlayer } from './BottomSheetPlayer';
 import { MiniPlayer } from './MiniPlayer';
 
@@ -15,6 +15,23 @@ export function PlayerManager() {
   const handleCollapse = () => {
     setIsFullPlayerVisible(false);
   };
+
+  // Handle Android back button
+  useEffect(() => {
+    const backAction = () => {
+      if (isFullPlayerVisible) {
+        // If full player is open, close it and prevent default back action
+        handleCollapse();
+        return true; // Prevent default back behavior
+      }
+      // If full player is not open, allow default back behavior
+      return false;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, [isFullPlayerVisible]);
 
   if (!currentTrack) return null;
 
