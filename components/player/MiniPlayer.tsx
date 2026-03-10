@@ -1,6 +1,7 @@
 import { usePlayerStore } from '@/store/playerStore';
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { DynamicBackground } from './DynamicBackground';
 
 type MiniPlayerProps = {
   onExpand?: () => void;
@@ -19,34 +20,48 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
   };
 
   return (
-    <Pressable style={styles.container} onPress={onExpand}>
-      <View style={styles.content}>
-        <Image source={{ uri: currentTrack.album.cover_medium }} style={styles.artwork} />
-        <View style={styles.info}>
-          <Text style={styles.title} numberOfLines={1}>
-            {currentTrack.title}
-          </Text>
-          <Text style={styles.artist} numberOfLines={1}>
-            {currentTrack.artist.name}
-          </Text>
+    <DynamicBackground imageUri={currentTrack.album.cover_xl}>
+      {/* Add shadow overlay for better text contrast */}
+      <View style={styles.shadowOverlay} />
+      <Pressable style={styles.container} onPress={onExpand}>
+        <View style={styles.content}>
+          <Image source={{ uri: currentTrack.album.cover_medium }} style={styles.artwork} />
+          <View style={styles.info}>
+            <Text style={styles.title} numberOfLines={1}>
+              {currentTrack.title}
+            </Text>
+            <Text style={styles.artist} numberOfLines={1}>
+              {currentTrack.artist.name}
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <Pressable onPress={handlePlayPausePress} style={styles.playButton}>
-        <Ionicons name={isPlaying ? 'pause' : 'play'} size={28} color="#FFFFFF" />
+        <Pressable onPress={handlePlayPausePress} style={styles.playButton}>
+          <Ionicons name={isPlaying ? 'pause' : 'play'} size={28} color="#FFFFFF" />
+        </Pressable>
       </Pressable>
-    </Pressable>
+    </DynamicBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  shadowOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Subtle dark overlay
+    zIndex: 1,
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#1C1C1E',
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    zIndex: 2, // Above shadow overlay
+    // Removed backgroundColor since DynamicBackground provides it
   },
   content: {
     flex: 1,
@@ -69,10 +84,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
     marginBottom: 2,
+    // Add text shadow for better readability
+    textShadowColor: 'rgba(0, 0, 0, 0.8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   artist: {
     fontSize: 12,
     color: '#8E8E93',
+    // Add text shadow for better readability
+    textShadowColor: 'rgba(0, 0, 0, 0.8)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   playButton: {
     width: 44,

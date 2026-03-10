@@ -54,9 +54,6 @@ const styles = StyleSheet.create({
     bottom: 90, // Above tab bar
     left: 0,
     right: 0,
-    backgroundColor: '#1C1C1E',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
     zIndex: 100,
     shadowColor: '#000',
     shadowOffset: {
