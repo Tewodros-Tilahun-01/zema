@@ -8,9 +8,15 @@ export interface DeezerUser {
 export interface DeezerPlaylist {
   id: number;
   title: string;
+  description?: string;
+  duration?: number;
   public: boolean;
+  is_loved_track?: boolean;
+  collaborative?: boolean;
   nb_tracks: number;
+  fans?: number;
   link: string;
+  share?: string;
   picture: string;
   picture_small: string;
   picture_medium: string;
@@ -23,13 +29,26 @@ export interface DeezerPlaylist {
   mod_date: string;
   md5_image: string;
   picture_type: string;
-  user: DeezerUser;
+  creator?: DeezerUser;
+  user?: DeezerUser;
   type: 'playlist';
+  tracks?: {
+    data: Track[];
+    checksum: string;
+  };
 }
 
 export interface DeezerPlaylistResponse {
   data: DeezerPlaylist[];
   total: number;
+}
+
+export interface DeezerPaginatedTracks {
+  data: Track[];
+  checksum: string;
+  total: number;
+  prev?: string;
+  next?: string;
 }
 export interface Artist {
   id: number;
