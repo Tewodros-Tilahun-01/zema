@@ -1,0 +1,67 @@
+import { Animated, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const STICKY_HEADER_HEIGHT = 60;
+
+type PlaylistStickyHeaderProps = {
+  title: string;
+  opacity: Animated.AnimatedInterpolation<number>;
+};
+
+export default function PlaylistStickyHeader({
+  title,
+
+  opacity,
+}: PlaylistStickyHeaderProps) {
+  return (
+    <Animated.View style={[styles.stickyHeader, { opacity }]}>
+      <SafeAreaView edges={['top']} style={styles.safeArea}>
+        <View style={styles.headerBar}>
+          <Text style={styles.stickyTitle} numberOfLines={1}>
+            {title}
+          </Text>
+          <View style={styles.placeholder} />
+        </View>
+      </SafeAreaView>
+    </Animated.View>
+  );
+}
+
+const styles = StyleSheet.create({
+  stickyHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: '#0B0E14',
+  },
+  safeArea: {
+    backgroundColor: '#0B0E14',
+  },
+  headerBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    height: STICKY_HEADER_HEIGHT,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  stickyTitle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginHorizontal: 8,
+  },
+  placeholder: {
+    width: 40,
+  },
+});

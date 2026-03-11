@@ -1,8 +1,9 @@
+import Button from '@/components/common/Button';
 import HorizontalSlider from '@/components/common/HorizontalSlider';
 import ProfileCard from '@/components/common/ProfileCard';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { Track } from '@/types/deezer';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 type TopTracksProps = {
   data: Track[];
@@ -12,7 +13,7 @@ export default function TopTracks({ data }: TopTracksProps) {
   const { handleTrackPress } = useTrackPlayer();
 
   return (
-    <View className="py-4 pl-1">
+    <View className="py-3 pl-1">
       <View className="mb-6 flex-row items-center justify-between">
         <Text className="text-2xl font-semibold text-white">Top track</Text>
       </View>
@@ -21,7 +22,7 @@ export default function TopTracks({ data }: TopTracksProps) {
         className="mt-4"
         keyExtractor={(item) => item.id.toString()}
         renderItem={(item) => (
-          <Pressable onPress={() => handleTrackPress(item)}>
+          <Button onPress={() => handleTrackPress(item)}>
             <ProfileCard
               item={{
                 id: item.id.toString(),
@@ -30,7 +31,7 @@ export default function TopTracks({ data }: TopTracksProps) {
                 image: item.album.cover_medium,
               }}
             />
-          </Pressable>
+          </Button>
         )}
         itemSeparatorWidth={16}
       />

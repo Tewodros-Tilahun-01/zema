@@ -1,6 +1,7 @@
+import Button from '@/components/common/Button';
 import { usePlayerStore } from '@/store/playerStore';
 import { Ionicons } from '@expo/vector-icons';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 type MiniPlayerProps = {
   onExpand?: () => void;
@@ -19,7 +20,7 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
   };
 
   return (
-    <Pressable style={styles.container} onPress={onExpand}>
+    <Button style={styles.container} onPress={onExpand} pressedScale={0.98}>
       <View style={styles.content}>
         <Image source={{ uri: currentTrack.album.cover_medium }} style={styles.artwork} />
         <View style={styles.info}>
@@ -32,10 +33,10 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
         </View>
       </View>
 
-      <Pressable onPress={handlePlayPausePress} style={styles.playButton}>
+      <Button onPress={handlePlayPausePress} style={styles.playButton} pressedScale={0.9}>
         <Ionicons name={isPlaying ? 'pause' : 'play'} size={28} color="#FFFFFF" />
-      </Pressable>
-    </Pressable>
+      </Button>
+    </Button>
   );
 }
 
