@@ -1,8 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Animated, {
-  SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import Animated, { SharedValue, useAnimatedStyle } from 'react-native-reanimated';
 
 type WaveBarProps = {
   bars: SharedValue<number[]>;
@@ -11,12 +8,7 @@ type WaveBarProps = {
   maxBarHeight: number;
 };
 
-export function WaveBar({
-  bars,
-  index,
-  minBarHeight,
-  maxBarHeight,
-}: WaveBarProps) {
+export function WaveBar({ bars, index, minBarHeight, maxBarHeight }: WaveBarProps) {
   const animatedStyle = useAnimatedStyle(() => {
     const value = bars.value[index] ?? 0.14;
     return {

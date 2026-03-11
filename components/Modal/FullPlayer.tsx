@@ -1,3 +1,4 @@
+import { usePlayerStore } from '@/store/playerStore';
 import { Portal } from '@gorhom/portal';
 import { useCallback } from 'react';
 import { Dimensions, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
@@ -9,16 +10,23 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import { FullPlayer } from './FullPlayer';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AlbumArt } from '../player/AlbumArt';
+import { DynamicBackground } from '../player/DynamicBackground';
+import { PlayerControls } from '../player/PlayerControls';
+import { PlayerHeader } from '../player/PlayerHeader';
+import { ProgressSlider } from '../player/ProgressSlider';
+import { TrackInfo } from '../player/TrackInfo';
 
-type BottomSheetPlayerProps = {
+type FullPlayerProps = {
   isVisible: boolean;
   onCollapse: () => void;
 };
 
 const { height: screenHeight } = Dimensions.get('window');
 
-export function BottomSheetPlayer({ isVisible, onCollapse }: BottomSheetPlayerProps) {
+export function FullPlayer({ isVisible, onCollapse }: FullPlayerProps) {
+  const currentTrack = usePlayerStore((state) => state.currentTrack);
   const translateY = useSharedValue(0);
 
   const panGesture = Gesture.Pan()
@@ -64,6 +72,23 @@ export function BottomSheetPlayer({ isVisible, onCollapse }: BottomSheetPlayerPr
 
   if (!isVisible) return null;
 
+  if (!currentTrack) {
+    return (
+      <Portal>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback onPress={handleBackdropPress}>
+            <View style={styles.backdrop} />
+          </TouchableWithoutFeedback>
+          <Animated.View style={[styles.container, animatedStyle]}>
+            <SafeAreaView style={styles.playerContainer}>
+              <PlayerHeader onCollapse={handleHeaderCollapse} />
+            </SafeAreaView>
+          </Animated.View>
+        </View>
+      </Portal>
+    );
+  }
+
   return (
     <Portal>
       <View style={styles.overlay}>
@@ -72,10 +97,22 @@ export function BottomSheetPlayer({ isVisible, onCollapse }: BottomSheetPlayerPr
           <View style={styles.backdrop} />
         </TouchableWithoutFeedback>
 
-        {/* Draggable Content */}
+        {/* Draggable Content with DynamicBackground */}
         <GestureDetector gesture={panGesture}>
           <Animated.View style={[styles.container, animatedStyle]}>
-            <FullPlayer onCollapse={handleHeaderCollapse} />
+            <DynamicBackground imageUri={currentTrack.album.cover_xl}>
+              <SafeAreaView style={styles.playerContainer}>
+                <PlayerHeader onCollapse={handleHeaderCollapse} />
+                <View style={styles.content}>
+                  <AlbumArt />
+                </View>
+                <View style={styles.bottomSection}>
+                  <TrackInfo />
+                  <PlayerControls />
+                  <ProgressSlider />
+                </View>
+              </SafeAreaView>
+            </DynamicBackground>
           </Animated.View>
         </GestureDetector>
       </View>
@@ -99,5 +136,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1C1C1E',
+  },
+  playerContainer: {
+    flex: 1,
+    paddingHorizontal: 22,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomSection: {
+    paddingBottom: 20,
+    marginBottom: 20,
   },
 });

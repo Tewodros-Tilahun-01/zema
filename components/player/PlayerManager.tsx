@@ -1,8 +1,8 @@
 import { usePlayerStore } from '@/store/playerStore';
 import { useEffect, useState } from 'react';
 import { BackHandler, StyleSheet, View } from 'react-native';
-import { BottomSheetPlayer } from './BottomSheetPlayer';
-import { MiniPlayer } from './MiniPlayer';
+import { FullPlayer } from '../Modal/FullPlayer';
+import { MiniPlayer } from '../Modal/MiniPlayer';
 
 export function PlayerManager() {
   const currentTrack = usePlayerStore((state) => state.currentTrack);
@@ -42,8 +42,8 @@ export function PlayerManager() {
         <MiniPlayer onExpand={handleExpand} />
       </View>
 
-      {/* Full Player - Portal overlay */}
-      <BottomSheetPlayer isVisible={isFullPlayerVisible} onCollapse={handleCollapse} />
+      {/* Full Player - Portal overlay with its own DynamicBackground */}
+      <FullPlayer isVisible={isFullPlayerVisible} onCollapse={handleCollapse} />
     </>
   );
 }

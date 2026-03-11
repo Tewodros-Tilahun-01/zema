@@ -22,11 +22,7 @@ export default function RecentPlayed({ data }: RecentPlayedProps) {
       <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
       <View className="mt-4 gap-2">
         {data.map((artist) => (
-          <RecommendedArtistCard
-            key={artist.id}
-            item={artist}
-            onPress={() => router.push('/(player)/now-playing')}
-          />
+          <RecommendedArtistCard key={artist.id} item={artist} />
         ))}
       </View>
     </View>
