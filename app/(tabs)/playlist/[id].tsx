@@ -8,19 +8,34 @@ import { usePlaylistTracks } from '@/hooks/usePlaylistTracks';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { Track } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { ActivityIndicator, Animated, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PlaylistScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const navigation = useNavigation();
   const { handleTrackPress } = useTrackPlayer();
 
+  // Intercept back gesture and hardware back button
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior
+      e.preventDefault();
+
+      // Navigate to home tab instead
+      router.push('/(tabs)/home');
+    });
+
+    return unsubscribe;
+  }, [navigation, router]);
+
   const handleBackPress = () => {
-    // Go back in navigation stack
-    router.back();
+    // Navigate to home tab
+    router.push('/(tabs)/home');
   };
 
   // Reset scrollY when id changes
@@ -37,29 +52,40 @@ export default function PlaylistScreen() {
 
   const tracks = tracksData?.pages.flatMap((page) => page.data) ?? [];
 
-  const renderTrackItem = ({ item }: { item: Track }) => (
-    <PlaylistTrackItem track={item} onPress={handleTrackPress} />
+  const renderTrackItem = useCallback(
+    ({ item }: { item: Track }) => <PlaylistTrackItem track={item} onPress={handleTrackPress} />,
+    [handleTrackPress],
   );
 
-  const renderHeader = () => {
+  const renderHeader = useCallback(() => {
     if (!playlist) return null;
     return <PlaylistInfo playlist={playlist} />;
-  };
+  }, [playlist]);
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     if (!isFetchingNextPage) return null;
     return (
       <View style={styles.footer}>
         <ActivityIndicator size="small" color="#FFFFFF" />
       </View>
     );
-  };
+  }, [isFetchingNextPage]);
 
   const loadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
   };
+
+  // Optimize FlatList performance with getItemLayout
+  const getItemLayout = useCallback(
+    (_: any, index: number) => ({
+      length: 72, // trackItem height (56px image + 16px padding)
+      offset: 72 * index,
+      index,
+    }),
+    [],
+  );
 
   if (isLoadingPlaylist) {
     return (
@@ -112,6 +138,10 @@ export default function PlaylistScreen() {
         ListFooterComponent={renderFooter}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
+        getItemLayout={getItemLayout}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        removeClippedSubviews={true}
         contentContainerStyle={[styles.listContent, { paddingTop: HEADER_HEIGHT }]}
         showsVerticalScrollIndicator={false}
         style={styles.flatList}

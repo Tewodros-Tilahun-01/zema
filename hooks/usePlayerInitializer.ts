@@ -22,7 +22,6 @@ export function useAudioPlayback() {
       currentTrackIdRef.current = currentTrack.id;
       isPlayingRef.current = true;
       console.log('🎵 Track changed:', currentTrack.title);
-      console.log('🎵 Preview URL:', currentTrack.preview);
 
       // Start playing the new track
       if (player && isPlaying) {

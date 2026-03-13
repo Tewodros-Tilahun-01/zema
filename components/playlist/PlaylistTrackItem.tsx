@@ -1,13 +1,13 @@
-import Button from '@/components/common/Button';
 import { Track } from '@/types/deezer';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { memo } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type PlaylistTrackItemProps = {
   track: Track;
   onPress: (track: Track) => void;
 };
 
-export default function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemProps) {
+function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemProps) {
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -15,7 +15,7 @@ export default function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemP
   };
 
   return (
-    <Button style={styles.trackItem} onPress={() => onPress(track)}>
+    <TouchableOpacity style={styles.trackItem} onPress={() => onPress(track)} activeOpacity={0.7}>
       <Image source={{ uri: track.album.cover_medium }} style={styles.trackCover} />
       <View style={styles.trackInfo}>
         <Text style={styles.trackTitle} numberOfLines={1}>
@@ -26,9 +26,11 @@ export default function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemP
         </Text>
       </View>
       <Text style={styles.trackDuration}>{formatDuration(track.duration)}</Text>
-    </Button>
+    </TouchableOpacity>
   );
 }
+
+export default memo(PlaylistTrackItem);
 
 const styles = StyleSheet.create({
   trackItem: {

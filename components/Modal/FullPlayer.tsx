@@ -45,6 +45,9 @@ export function FullPlayer({ isVisible, onCollapse }: FullPlayerProps) {
         translateY.value = withTiming(screenHeight, { duration: 250 }, (finished) => {
           if (finished) {
             runOnJS(onCollapse)();
+            setTimeout(() => {
+              translateY.set(0);
+            }, 100);
           }
         });
       } else {
