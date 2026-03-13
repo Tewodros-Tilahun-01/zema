@@ -1,3 +1,4 @@
+import { saveRecentlyPlayed } from '@/db/queries';
 import { Track } from '@/types/deezer';
 import { AudioPlayer } from 'expo-audio';
 import { create } from 'zustand';
@@ -57,6 +58,11 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   playTrack: (track) => {
     console.log('🎵 Playing track:', track.title);
     set({ currentTrack: track, isPlaying: true, currentTime: 0 });
+
+    // Save to recently played
+    saveRecentlyPlayed(track).catch((error) => {
+      console.error('Failed to save recently played track:', error);
+    });
   },
 
   togglePlayPause: () => {
