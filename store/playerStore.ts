@@ -24,6 +24,7 @@ type PlayerState = {
   setVolume: (volume: number) => void;
   playTrack: (track: Track) => void;
   togglePlayPause: () => void;
+  clearTrack: () => void;
   reset: () => void;
 
   // Computed
@@ -67,6 +68,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
   togglePlayPause: () => {
     set((state) => ({ isPlaying: !state.isPlaying }));
+  },
+
+  clearTrack: () => {
+    const { player } = get();
+    if (player) {
+      player.pause();
+    }
+    set({ currentTrack: null, isPlaying: false, currentTime: 0, duration: 0 });
   },
 
   reset: () => set(initialState),
