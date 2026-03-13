@@ -1,6 +1,6 @@
 import Button from '@/components/common/Button';
 import HorizontalSlider from '@/components/common/HorizontalSlider';
-import ProfileCard from '@/components/common/ProfileCard';
+import TrackCard from '@/components/common/TrackCard';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { Track } from '@/types/deezer';
 import { Text, View } from 'react-native';
@@ -23,7 +23,7 @@ export default function TopTracks({ data }: TopTracksProps) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={(item) => (
           <Button onPress={() => handleTrackPress(item)}>
-            <ProfileCard
+            <TrackCard
               item={{
                 id: item.id.toString(),
                 name: item.artist.name,

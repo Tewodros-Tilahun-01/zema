@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-export default function ProfileCardSkeleton() {
+export default function TrackCardSkeleton() {
   const shimmerAnim = useSharedValue(0.3);
 
   useEffect(() => {
@@ -20,35 +20,40 @@ export default function ProfileCardSkeleton() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.image, shimmerStyle]} />
-      <Animated.View style={[styles.name, shimmerStyle]} />
-      <Animated.View style={[styles.song, shimmerStyle]} />
+      <Animated.View style={[styles.imageContainer, shimmerStyle]} />
+      <Animated.View style={[styles.songTitle, shimmerStyle]} />
+      <Animated.View style={[styles.artistName, shimmerStyle]} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 168, // w-42 in Tailwind
+    width: 144,
+    overflow: 'hidden',
     marginRight: 16,
   },
-  image: {
-    width: 168, // w-42 in Tailwind
-    height: 168, // h-42 in Tailwind
-    borderRadius: 8, // rounded-lg
+  imageContainer: {
+    width: 144,
+    height: 144,
+    borderRadius: 8,
+    borderWidth: 1,
+
     backgroundColor: '#2C2C2E',
-    marginBottom: 8, // mt-2
+    overflow: 'hidden',
   },
-  name: {
-    height: 18, // text-lg
-    backgroundColor: '#2C2C2E',
+  songTitle: {
+    marginTop: 8,
+    height: 20,
+    width: '100%',
     borderRadius: 4,
-    marginBottom: 4,
+    backgroundColor: '#1C1C1E',
   },
-  song: {
-    height: 12, // text-xs
-    width: '80%',
-    backgroundColor: '#2C2C2E',
+  artistName: {
+    marginTop: 4,
+    height: 14,
+    width: '75%',
     borderRadius: 4,
+    backgroundColor: '#1C1C1E',
   },
 });

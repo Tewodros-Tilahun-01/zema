@@ -1,5 +1,5 @@
 import HorizontalSlider from '@/components/common/HorizontalSlider';
-import MusicCard from '@/components/common/MusicCard';
+import PlaylistCard from '@/components/common/PlaylistCard';
 import { DeezerPlaylist } from '@/types/deezer';
 import { useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
@@ -32,7 +32,7 @@ export default function TrendingPlaylists({ data }: TrendingPlaylistsProps) {
 
   return (
     <View>
-      <View className="mb-5 flex-row items-center justify-between">
+      <View className="mb-4 flex-row items-center justify-between">
         <Text className="text-2xl font-semibold text-white">Trending playlists</Text>
         <View className="flex-row items-center gap-3"></View>
       </View>
@@ -43,7 +43,7 @@ export default function TrendingPlaylists({ data }: TrendingPlaylistsProps) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={(item, index) => (
           <TouchableOpacity onPress={() => handlePlaylistPress(item.id)}>
-            <MusicCard
+            <PlaylistCard
               item={{
                 id: item.id.toString(),
                 title: item.title,

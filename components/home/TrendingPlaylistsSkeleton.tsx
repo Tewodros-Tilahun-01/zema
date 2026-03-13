@@ -1,4 +1,4 @@
-import MusicCardSkeleton from '@/components/common/MusicCardSkeleton';
+import PlaylistCardSkeleton from '@/components/common/PlaylistCardSkeleton';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function TrendingPlaylistsSkeleton() {
@@ -13,10 +13,10 @@ export default function TrendingPlaylistsSkeleton() {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
-        className="mt-5"
+        className="mt-0"
       >
         {Array.from({ length: 4 }).map((_, index) => (
-          <MusicCardSkeleton key={index} />
+          <PlaylistCardSkeleton key={index} />
         ))}
       </ScrollView>
     </View>

@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-export default function MusicCardSkeleton() {
+export default function PlaylistCardSkeleton() {
   const shimmerAnim = useSharedValue(0.3);
 
   useEffect(() => {

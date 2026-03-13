@@ -16,7 +16,7 @@ const GRADIENTS: ReadonlyArray<readonly [ColorValue, ColorValue, ColorValue]> = 
   ['rgba(120, 80, 30, 0.55)', 'rgba(190, 130, 60, 0.7)', 'rgba(235, 190, 120, 0.85)'],
 ];
 
-export default function MusicCard({ item, index }: MusicCardProps) {
+export default function PlaylistCard({ item, index }: MusicCardProps) {
   const gradient = GRADIENTS[index % GRADIENTS.length];
 
   return (
@@ -75,14 +75,5 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 12,
     color: 'rgba(255, 255, 255, 0.7)',
-  },
-  playButton: {
-    marginTop: 16,
-    height: 28,
-    width: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
 });

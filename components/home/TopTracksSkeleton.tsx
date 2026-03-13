@@ -1,9 +1,9 @@
-import ProfileCardSkeleton from '@/components/common/ProfileCardSkeleton';
+import TrackCardSkeleton from '@/components/common/TrackCardSkeleton';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function TopTracksSkeleton() {
   return (
-    <View className="py-4 pl-1">
+    <View className="py-3 pl-1">
       <View className="mb-6 flex-row items-center justify-between">
         <Text className="text-2xl font-semibold text-white">Top track</Text>
       </View>
@@ -12,10 +12,9 @@ export default function TopTracksSkeleton() {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
-        className="mt-4"
       >
         {Array.from({ length: 4 }).map((_, index) => (
-          <ProfileCardSkeleton key={index} />
+          <TrackCardSkeleton key={index} />
         ))}
       </ScrollView>
     </View>

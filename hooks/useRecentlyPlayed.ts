@@ -12,8 +12,10 @@ export function useRecentlyPlayed() {
     try {
       const data = await getRecentlyPlayed();
       setTracks(data);
+      return data;
     } catch (error) {
       console.error('Error fetching recently played:', error);
+      return [];
     } finally {
       setIsLoading(false);
     }

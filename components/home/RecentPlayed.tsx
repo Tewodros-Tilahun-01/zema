@@ -1,18 +1,22 @@
-import RecentlyPlayedItem from '@/components/recent/RecentlyPlayedItem';
+import RecentlyPlayedItem from '@/components/common/RecentlyPlayedItem';
 import { clearRecentlyPlayed } from '@/db/queries';
-import { useRecentlyPlayed } from '@/hooks/useRecentlyPlayed';
+import { RecentlyPlayed } from '@/db/schema';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { recentlyPlayedToTrack } from '@/utils/trackConverter';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from 'react-native';
 
-export default function RecentPlayed() {
-  const { tracks, isLoading, refetch } = useRecentlyPlayed();
+type RecentPlayedProps = {
+  tracks: RecentlyPlayed[];
+  onRefresh?: () => Promise<any>;
+};
+
+export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
   const { handleTrackPress } = useTrackPlayer();
   const [isClearing, setIsClearing] = useState(false);
 
-  const handlePress = (track: any) => {
+  const handlePress = (track: RecentlyPlayed) => {
     const fullTrack = recentlyPlayedToTrack(track);
     handleTrackPress(fullTrack);
   };
@@ -30,7 +34,9 @@ export default function RecentPlayed() {
             setIsClearing(true);
             try {
               await clearRecentlyPlayed();
-              await refetch();
+              if (onRefresh) {
+                await onRefresh();
+              }
             } catch (error) {
               console.error('Failed to clear recently played:', error);
             } finally {
@@ -41,17 +47,6 @@ export default function RecentPlayed() {
       ],
     );
   };
-
-  if (isLoading) {
-    return (
-      <View className="px-1">
-        <Text className="text-2xl font-semibold text-white">recent played</Text>
-        <View className="mt-8 items-center py-8">
-          <ActivityIndicator size="small" color="#FFFFFF" />
-        </View>
-      </View>
-    );
-  }
 
   if (tracks.length === 0) {
     return (
