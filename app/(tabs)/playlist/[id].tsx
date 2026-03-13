@@ -174,8 +174,7 @@ export default function PlaylistScreen() {
           onEndReached={loadMore}
           onEndReachedThreshold={0.5}
           getItemLayout={getItemLayout}
-          maxToRenderPerBatch={10}
-          windowSize={5}
+          maxToRenderPerBatch={20}
           removeClippedSubviews={true}
           contentContainerStyle={[styles.listContent, { paddingTop: HEADER_HEIGHT }]}
           showsVerticalScrollIndicator={false}
