@@ -1,5 +1,6 @@
 import { DeezerPlaylist } from '@/types/deezer';
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Image } from 'expo-image';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const HEADER_HEIGHT = 350;
@@ -9,7 +10,13 @@ type PlaylistHeaderProps = {
 };
 
 export default function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
-  return <Image source={{ uri: playlist.picture_big }} style={styles.headerImage} />;
+  return (
+    <Image
+      source={{ uri: playlist.picture_big }}
+      style={styles.headerImage}
+      cachePolicy="memory-disk"
+    />
+  );
 }
 
 const styles = StyleSheet.create({

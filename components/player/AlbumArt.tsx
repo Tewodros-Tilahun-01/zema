@@ -1,6 +1,7 @@
 import { usePlayerStore } from '@/store/playerStore';
+import { Image } from 'expo-image';
 import { useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export function AlbumArt() {
   const currentTrack = usePlayerStore((state) => state.currentTrack);
@@ -18,6 +19,7 @@ export function AlbumArt() {
             onLoadStart={() => setIsLoading(true)}
             onLoadEnd={() => setIsLoading(false)}
             onError={() => setIsLoading(false)}
+            cachePolicy="memory-disk"
           />
           {isLoading ? (
             <View style={styles.coverLoadingOverlay}>

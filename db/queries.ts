@@ -3,7 +3,7 @@ import { desc, eq, sql } from 'drizzle-orm';
 import { db } from './client';
 import { NewRecentlyPlayed, recentlyPlayed } from './schema';
 
-const MAX_RECENT_TRACKS = 20;
+const MAX_RECENT_TRACKS = 10;
 
 export async function saveRecentlyPlayed(track: Track) {
   const trackData: NewRecentlyPlayed = {
@@ -44,7 +44,7 @@ export async function saveRecentlyPlayed(track: Track) {
   }
 }
 
-export async function getRecentlyPlayed(limit: number = 20) {
+export async function getRecentlyPlayed(limit: number = 10) {
   try {
     return await db
       .select()

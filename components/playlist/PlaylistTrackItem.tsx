@@ -1,6 +1,7 @@
 import { Track } from '@/types/deezer';
+import { Image } from 'expo-image';
 import { memo } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type PlaylistTrackItemProps = {
   track: Track;
@@ -16,7 +17,11 @@ function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemProps) {
 
   return (
     <TouchableOpacity style={styles.trackItem} onPress={() => onPress(track)} activeOpacity={0.7}>
-      <Image source={{ uri: track.album.cover_small }} style={styles.trackCover} />
+      <Image
+        source={{ uri: track.album.cover_small }}
+        style={styles.trackCover}
+        cachePolicy="memory-disk"
+      />
       <View style={styles.trackInfo}>
         <Text style={styles.trackTitle} numberOfLines={1}>
           {track.title}
