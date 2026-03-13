@@ -10,7 +10,7 @@ import { Track } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Extrapolation,
@@ -61,7 +61,9 @@ export default function PlaylistScreen() {
     isFetchingNextPage,
   } = usePlaylistTracks(id as string);
 
-  const tracks = tracksData?.pages.flatMap((page) => page.data) ?? [];
+  const tracks = useMemo(() => {
+    return tracksData?.pages.flatMap((page) => page.data) ?? [];
+  }, [tracksData]);
 
   const renderTrackItem = useCallback(
     ({ item }: { item: Track }) => <PlaylistTrackItem track={item} onPress={handleTrackPress} />,
