@@ -1,20 +1,17 @@
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import Animated, { AnimatedStyle } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const STICKY_HEADER_HEIGHT = 60;
 
 type PlaylistStickyHeaderProps = {
   title: string;
-  opacity: Animated.AnimatedInterpolation<number>;
+  animatedStyle: AnimatedStyle<ViewStyle>;
 };
 
-export default function PlaylistStickyHeader({
-  title,
-
-  opacity,
-}: PlaylistStickyHeaderProps) {
+export default function PlaylistStickyHeader({ title, animatedStyle }: PlaylistStickyHeaderProps) {
   return (
-    <Animated.View style={[styles.stickyHeader, { opacity }]}>
+    <Animated.View style={[styles.stickyHeader, animatedStyle]}>
       <SafeAreaView edges={['top']} style={styles.safeArea}>
         <View style={styles.headerBar}>
           <Text style={styles.stickyTitle} numberOfLines={1}>

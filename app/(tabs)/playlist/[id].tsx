@@ -10,9 +10,15 @@ import { Track } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef } from 'react';
-import { ActivityIndicator, Animated, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useCallback, useEffect } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 export default function PlaylistScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -39,7 +45,12 @@ export default function PlaylistScreen() {
   };
 
   // Reset scrollY when id changes
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const scrollY = useSharedValue(0);
+
+  // Reset scrollY when navigating back or id changes
+  useEffect(() => {
+    scrollY.value = 0;
+  }, [id]);
 
   const { data: playlist, isLoading: isLoadingPlaylist, error } = usePlaylist(id as string);
 
@@ -87,6 +98,34 @@ export default function PlaylistScreen() {
     [],
   );
 
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
+
+  const headerOpacity = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [HEADER_HEIGHT - 100, HEADER_HEIGHT],
+      [0, 1],
+      Extrapolation.CLAMP,
+    );
+    return { opacity };
+  });
+
+  const flatListAnimatedStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [HEADER_HEIGHT - 50, HEADER_HEIGHT],
+      [0, 1],
+      Extrapolation.CLAMP,
+    );
+    return {
+      backgroundColor: `rgba(11, 14, 20, ${opacity})`,
+    };
+  });
+
   if (isLoadingPlaylist) {
     return (
       <View style={styles.loadingContainer}>
@@ -114,42 +153,35 @@ export default function PlaylistScreen() {
         <PlaylistHeader playlist={playlist} />
       </View>
 
-      <SafeAreaView edges={['top']} style={styles.topSafeArea}>
+      <View style={styles.topSafeArea}>
         <Button onPress={handleBackPress} style={styles.backButtonFixed}>
           <Ionicons name="chevron-back" size={28} color="#FFFFFF" />
         </Button>
-      </SafeAreaView>
+      </View>
 
-      <PlaylistStickyHeader
-        title={playlist.title}
-        opacity={scrollY.interpolate({
-          inputRange: [HEADER_HEIGHT - 100, HEADER_HEIGHT],
-          outputRange: [0, 1],
-          extrapolate: 'clamp',
-        })}
-      />
+      <PlaylistStickyHeader title={playlist.title} animatedStyle={headerOpacity} />
 
-      <Animated.FlatList
-        key={id}
-        data={tracks}
-        renderItem={renderTrackItem}
-        keyExtractor={(item) => item.id.toString()}
-        ListHeaderComponent={renderHeader}
-        ListFooterComponent={renderFooter}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.5}
-        getItemLayout={getItemLayout}
-        maxToRenderPerBatch={10}
-        windowSize={5}
-        removeClippedSubviews={true}
-        contentContainerStyle={[styles.listContent, { paddingTop: HEADER_HEIGHT }]}
-        showsVerticalScrollIndicator={false}
-        style={styles.flatList}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
-          useNativeDriver: true,
-        })}
-        scrollEventThrottle={16}
-      />
+      <View>
+        <Animated.FlatList
+          key={id}
+          data={tracks}
+          renderItem={renderTrackItem}
+          keyExtractor={(item) => item.id.toString()}
+          ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderFooter}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.5}
+          getItemLayout={getItemLayout}
+          maxToRenderPerBatch={10}
+          windowSize={5}
+          removeClippedSubviews={true}
+          contentContainerStyle={[styles.listContent, { paddingTop: HEADER_HEIGHT }]}
+          showsVerticalScrollIndicator={false}
+          style={[styles.flatList, flatListAnimatedStyle]}
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+        />
+      </View>
     </View>
   );
 }
@@ -196,7 +228,7 @@ const styles = StyleSheet.create({
   },
   topSafeArea: {
     position: 'absolute',
-    top: 0,
+    top: 25,
     left: 0,
     zIndex: 11,
   },
