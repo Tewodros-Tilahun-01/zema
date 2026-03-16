@@ -55,6 +55,14 @@ export default function TabsLayout() {
           unmountOnBlur: true,
         }}
       />
+      <Tabs.Screen
+        name="artist"
+        options={{
+          href: null,
+          // @ts-ignore
+          unmountOnBlur: true,
+        }}
+      />
     </Tabs>
   );
 }

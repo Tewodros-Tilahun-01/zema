@@ -45,3 +45,16 @@ export async function searchDeezer<T>(
   });
   return data;
 }
+
+// Artist API
+export async function fetchArtist(id: string): Promise<any> {
+  const { data } = await deezerApi.get(`/artist/${id}`);
+  return data;
+}
+
+export async function fetchArtistTopTracks(id: string): Promise<{ data: any[] }> {
+  const { data } = await deezerApi.get(`/artist/${id}/top`, {
+    params: { limit: 20 },
+  });
+  return data;
+}

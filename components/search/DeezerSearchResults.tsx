@@ -24,7 +24,7 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
     } else if (mode === 'artist') {
       const artist = item as ArtistSearchResult;
       // @ts-ignore - Dynamic route
-      router.push(`/artist/${artist.id}?from=search`);
+      router.push(`/(tabs)/artist/${artist.id}?from=search`);
     } else if (mode === 'playlist') {
       const playlist = item as DeezerPlaylist;
       // @ts-ignore - Dynamic route
