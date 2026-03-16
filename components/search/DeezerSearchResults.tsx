@@ -9,9 +9,15 @@ type DeezerSearchResultsProps = {
   results: SearchResult[];
   mode: SearchMode;
   onTrackPress?: (track: Track) => void;
+  onResultPress?: (result: SearchResult) => void;
 };
 
-export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearchResultsProps) {
+export function DeezerSearchResults({
+  results,
+  mode,
+  onTrackPress,
+  onResultPress,
+}: DeezerSearchResultsProps) {
   const router = useRouter();
 
   if (results.length === 0) {
@@ -19,6 +25,13 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
   }
 
   const handlePress = (item: SearchResult) => {
+    // Call onResultPress if provided (for saving to recent searches)
+    if (onResultPress) {
+      onResultPress(item);
+      return;
+    }
+
+    // Fallback to default behavior
     if (mode === 'track' && onTrackPress) {
       onTrackPress(item as Track);
     } else if (mode === 'artist') {

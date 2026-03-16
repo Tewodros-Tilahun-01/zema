@@ -22,6 +22,16 @@ export async function runMigrations(db: SQLiteDatabase) {
       
       CREATE INDEX IF NOT EXISTS idx_played_at ON recently_played(played_at DESC);
       CREATE INDEX IF NOT EXISTS idx_track_id ON recently_played(track_id);
+      
+      CREATE TABLE IF NOT EXISTS recent_searches (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        query TEXT NOT NULL UNIQUE,
+        search_mode TEXT NOT NULL,
+        searched_at INTEGER NOT NULL
+      );
+      
+      CREATE INDEX IF NOT EXISTS idx_searched_at ON recent_searches(searched_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_query ON recent_searches(query);
     `);
     console.log('✅ Database migrations completed successfully');
   } catch (error) {

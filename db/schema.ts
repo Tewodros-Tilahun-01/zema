@@ -17,3 +17,13 @@ export const recentlyPlayed = sqliteTable('recently_played', {
 
 export type RecentlyPlayed = typeof recentlyPlayed.$inferSelect;
 export type NewRecentlyPlayed = typeof recentlyPlayed.$inferInsert;
+
+export const recentSearches = sqliteTable('recent_searches', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  query: text('query').notNull().unique(),
+  searchMode: text('search_mode').notNull(), // 'track' | 'artist' | 'playlist'
+  searchedAt: integer('searched_at').notNull(),
+});
+
+export type RecentSearch = typeof recentSearches.$inferSelect;
+export type NewRecentSearch = typeof recentSearches.$inferInsert;
