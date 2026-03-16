@@ -100,3 +100,27 @@ export interface DeezerTracksResponse {
   data: Track[];
   total: number;
 }
+
+// Search Types
+export type SearchMode = 'track' | 'artist' | 'playlist';
+
+export interface SearchResponse<T> {
+  data: T[];
+  total: number;
+  next?: string;
+}
+
+// Extended Artist for search results
+export interface ArtistSearchResult extends Artist {
+  nb_album: number;
+  nb_fan: number;
+}
+
+// Track search response
+export type TrackSearchResponse = SearchResponse<Track>;
+
+// Artist search response
+export type ArtistSearchResponse = SearchResponse<ArtistSearchResult>;
+
+// Playlist search response (reusing DeezerPlaylist)
+export type PlaylistSearchResponse = SearchResponse<DeezerPlaylist>;

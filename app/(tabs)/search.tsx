@@ -1,42 +1,13 @@
-import { SearchBar } from '@/components/search';
+import { DeezerSearchResults, SearchBar, SearchModeButtons } from '@/components/search';
+import { useDebounce } from '@/hooks/useDebounce';
+import { useDeezerSearch } from '@/hooks/useDeezerSearch';
+import { SearchMode, Track } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const QUICK_FILTERS = [
-  { id: 'f1', label: 'Podcasts' },
-  { id: 'f2', label: 'Live Events' },
-  { id: 'f3', label: 'Mood' },
-  { id: 'f4', label: 'New Releases' },
-  { id: 'f5', label: 'Charts' },
-];
-
-const SEARCH_RESULTS = [
-  {
-    id: 'tr1',
-    title: 'Neon Afternoons',
-    subtitle: 'Playlist',
-    image:
-      'https://images.unsplash.com/photo-1518972559570-0a5558a3d6f3?auto=format&fit=crop&w=200&q=80',
-  },
-  {
-    id: 'tr2',
-    title: 'Mako North',
-    subtitle: 'Artist',
-    image:
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
-  },
-  {
-    id: 'tr3',
-    title: 'Sunline Radio',
-    subtitle: 'Podcast',
-    image:
-      'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=200&q=80',
-  },
-];
 
 const RECENT_SEARCHES = [
   {
@@ -110,105 +81,80 @@ const BROWSE_TILES = [
 export default function SearchScreen() {
   const inputRef = useRef<TextInput>(null);
   const [query, setQuery] = useState('');
-  const [submittedQuery, setSubmittedQuery] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [searchMode, setSearchMode] = useState<SearchMode>('track');
 
-  const filteredResults = useMemo(() => {
-    const normalizedQuery = submittedQuery.trim().toLowerCase();
-    if (!normalizedQuery) {
-      return [];
-    }
+  // Debounce search query - automatically search after 500ms of no typing
+  const debouncedQuery = useDebounce(query, 500);
 
-    return SEARCH_RESULTS.filter((item) =>
-      `${item.title} ${item.subtitle}`.toLowerCase().includes(normalizedQuery),
-    );
-  }, [submittedQuery]);
+  // Deezer search with debounced query
+  const { data: deezerResults = [], isLoading } = useDeezerSearch(debouncedQuery, searchMode);
 
-  const isSearchMode = submittedQuery.trim().length > 0;
-  const isTypingOnly = isTyping && !isSearchMode;
+  const isSearchActive = debouncedQuery.trim().length > 0;
+  const isTyping = query !== debouncedQuery && query.trim().length > 0;
+
+  const handleTrackPress = (track: Track) => {
+    // TODO: Implement track playback
+    console.log('Play track:', track.title);
+  };
+
+  const handleModeChange = (mode: SearchMode) => {
+    setSearchMode(mode);
+  };
 
   return (
     <View className="flex-1 bg-[#0B0E14]">
       <SafeAreaView />
+
+      {/* Fixed Header */}
+      <View className="px-5">
+        {!isSearchActive && (
+          <View className="mt-2 mb-5 flex-row items-center justify-between">
+            <Text className="text-3xl font-bold text-white">Search</Text>
+          </View>
+        )}
+
+        <SearchBar
+          ref={inputRef}
+          value={query}
+          onChangeText={setQuery}
+          onFocus={() => {}}
+          onBlur={() => {}}
+          onSubmitEditing={() => inputRef.current?.blur()}
+          onClear={() => setQuery('')}
+        />
+
+        {isSearchActive && (
+          <View className="">
+            <SearchModeButtons selectedMode={searchMode} onModeChange={handleModeChange} />
+          </View>
+        )}
+      </View>
+
+      {/* Scrollable Content */}
       <ScrollView
         className="flex-1"
         contentContainerClassName="px-5 pb-28"
         showsVerticalScrollIndicator={false}
       >
-        <View className="mt-2 mb-5 flex-row items-center justify-between">
-          <Text className="text-3xl font-bold text-white">Search</Text>
-        </View>
-
-        <SearchBar
-          ref={inputRef}
-          value={query}
-          onChangeText={(text) => {
-            setQuery(text);
-            setSubmittedQuery('');
-            setIsTyping(text.trim().length > 0);
-          }}
-          onFocus={() => setIsTyping(query.trim().length > 0)}
-          onBlur={() => setIsTyping(false)}
-          onSubmitEditing={() => {
-            const trimmedQuery = query.trim();
-            setSubmittedQuery(trimmedQuery);
-            setIsTyping(false);
-          }}
-          onClear={() => {
-            setQuery('');
-            setSubmittedQuery('');
-            setIsTyping(false);
-          }}
-        />
-
-        {!isTypingOnly && isSearchMode && (
+        {isSearchActive && (
           <View className="mt-2">
-            <Text className="mb-3 text-xl font-semibold text-white">Search results</Text>
-            {filteredResults.length > 0 ? (
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerClassName="pr-3"
-              >
-                {filteredResults.map((item) => (
-                  <Pressable
-                    key={item.id}
-                    className="mr-3 w-36 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3"
-                  >
-                    <Image
-                      source={{ uri: item.image }}
-                      className="h-24 w-full rounded-xl"
-                      resizeMode="cover"
-                    />
-                    <Text className="mt-3 text-sm font-semibold text-white">{item.title}</Text>
-                    <Text className="text-xs text-white/65">{item.subtitle}</Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
+            {isTyping || isLoading ? (
+              <Text className="mt-4 text-sm text-white/60">Searching...</Text>
+            ) : deezerResults.length > 0 ? (
+              <DeezerSearchResults
+                results={deezerResults}
+                mode={searchMode}
+                onTrackPress={handleTrackPress}
+              />
             ) : (
               <Text className="text-sm text-white/60">No results found.</Text>
             )}
           </View>
         )}
 
-        {!isTypingOnly && !isSearchMode && (
+        {!isSearchActive && (
           <>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerClassName="pr-3"
-            >
-              {QUICK_FILTERS.map((filter) => (
-                <Pressable
-                  key={filter.id}
-                  className="mr-3 rounded-full border border-white/20 bg-white/5 px-4 py-2"
-                >
-                  <Text className="text-xs font-semibold text-white/90">{filter.label}</Text>
-                </Pressable>
-              ))}
-            </ScrollView>
-
-            <View className="mt-9">
+            <View className="mt-4">
               <View className="mb-3 flex-row items-center justify-between">
                 <Text className="text-xl font-semibold text-white">Recent searches</Text>
                 <Text className="text-xs font-medium text-white/60">Clear all</Text>
@@ -222,7 +168,7 @@ export default function SearchScreen() {
                     <Image
                       source={{ uri: item.image }}
                       className="h-12 w-12 rounded-md"
-                      resizeMode="cover"
+                      contentFit="cover"
                     />
                     <View className="ml-3">
                       <Text className="text-sm font-semibold text-white">{item.title}</Text>
@@ -247,7 +193,7 @@ export default function SearchScreen() {
                       <Image
                         source={{ uri: tile.image }}
                         className="absolute -right-3 -bottom-2 h-18 w-18 rotate-20 rounded-md"
-                        resizeMode="cover"
+                        contentFit="cover"
                       />
                     </LinearGradient>
                   </Pressable>

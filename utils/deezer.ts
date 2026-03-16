@@ -33,3 +33,15 @@ export async function fetchPlaylistTracks(
   });
   return data;
 }
+
+// Search API
+export async function searchDeezer<T>(
+  query: string,
+  mode: 'track' | 'artist' | 'playlist' = 'track',
+): Promise<{ data: T[]; total: number; next?: string }> {
+  const endpoint = `/search/${mode}`;
+  const { data } = await deezerApi.get<{ data: T[]; total: number; next?: string }>(endpoint, {
+    params: { q: query },
+  });
+  return data;
+}
