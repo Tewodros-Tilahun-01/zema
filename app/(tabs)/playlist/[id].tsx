@@ -28,7 +28,6 @@ export default function PlaylistScreen() {
 
   // Determine where to navigate back to
   const backRoute = from === 'search' ? '/(tabs)/search' : '/(tabs)/home';
-  console.log('hy', from);
 
   // Intercept back gesture and hardware back button
   useEffect(() => {
