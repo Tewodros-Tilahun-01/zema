@@ -1,7 +1,8 @@
 import { DeezerSearchResults, SearchBar, SearchModeButtons } from '@/components/search';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useDeezerSearch } from '@/hooks/useDeezerSearch';
-import { SearchMode, Track } from '@/types/deezer';
+import { useTrackPlayer } from '@/hooks/useTrackPlayer';
+import { SearchMode } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -82,6 +83,7 @@ export default function SearchScreen() {
   const inputRef = useRef<TextInput>(null);
   const [query, setQuery] = useState('');
   const [searchMode, setSearchMode] = useState<SearchMode>('track');
+  const { handleTrackPress } = useTrackPlayer();
 
   // Debounce search query - automatically search after 500ms of no typing
   const debouncedQuery = useDebounce(query, 500);
@@ -91,11 +93,6 @@ export default function SearchScreen() {
 
   const isSearchActive = debouncedQuery.trim().length > 0;
   const isTyping = query !== debouncedQuery && query.trim().length > 0;
-
-  const handleTrackPress = (track: Track) => {
-    // TODO: Implement track playback
-    console.log('Play track:', track.title);
-  };
 
   const handleModeChange = (mode: SearchMode) => {
     setSearchMode(mode);

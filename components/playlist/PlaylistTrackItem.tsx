@@ -18,7 +18,7 @@ function PlaylistTrackItem({ track, onPress }: PlaylistTrackItemProps) {
   return (
     <TouchableOpacity style={styles.trackItem} onPress={() => onPress(track)} activeOpacity={0.7}>
       <Image
-        source={{ uri: track.album.cover_small }}
+        source={{ uri: track.album.cover_medium }}
         style={styles.trackCover}
         cachePolicy="memory-disk"
       />

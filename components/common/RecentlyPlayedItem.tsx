@@ -9,7 +9,7 @@ type RecentlyPlayedItemProps = {
 export default function RecentlyPlayedItem({ track, onPress }: RecentlyPlayedItemProps) {
   return (
     <TouchableOpacity style={styles.trackItem} onPress={() => onPress(track)} activeOpacity={0.7}>
-      <Image source={{ uri: track.coverSmall }} style={styles.trackCover} />
+      <Image source={{ uri: track.coverMedium }} style={styles.trackCover} />
       <View style={styles.trackInfo}>
         <Text style={styles.trackTitle} numberOfLines={1}>
           {track.title}

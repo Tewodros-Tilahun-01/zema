@@ -24,11 +24,11 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
     } else if (mode === 'artist') {
       const artist = item as ArtistSearchResult;
       // @ts-ignore - Dynamic route
-      router.push(`/artist/${artist.id}`);
+      router.push(`/artist/${artist.id}?from=search`);
     } else if (mode === 'playlist') {
       const playlist = item as DeezerPlaylist;
       // @ts-ignore - Dynamic route
-      router.push(`/(tabs)/playlist/${playlist.id}`);
+      router.push(`/(tabs)/playlist/${playlist.id}?from=search`);
     }
   };
 
@@ -39,7 +39,7 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
       android_ripple={{ color: 'rgba(255, 255, 255, 0.1)' }}
     >
       <Image
-        source={{ uri: item.album.cover_small }}
+        source={{ uri: item.album.cover_medium }}
         style={styles.trackCover}
         contentFit="cover"
       />
@@ -60,7 +60,7 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
       onPress={() => handlePress(item)}
       android_ripple={{ color: 'rgba(255, 255, 255, 0.1)' }}
     >
-      <Image source={{ uri: item.picture_small }} style={styles.artistImage} contentFit="cover" />
+      <Image source={{ uri: item.picture_medium }} style={styles.artistImage} contentFit="cover" />
       <View style={styles.trackInfo}>
         <Text style={styles.trackTitle} numberOfLines={1}>
           {item.name}
@@ -78,7 +78,7 @@ export function DeezerSearchResults({ results, mode, onTrackPress }: DeezerSearc
       onPress={() => handlePress(item)}
       android_ripple={{ color: 'rgba(255, 255, 255, 0.1)' }}
     >
-      <Image source={{ uri: item.picture_small }} style={styles.trackCover} contentFit="cover" />
+      <Image source={{ uri: item.picture_medium }} style={styles.trackCover} contentFit="cover" />
       <View style={styles.trackInfo}>
         <Text style={styles.trackTitle} numberOfLines={1}>
           {item.title}

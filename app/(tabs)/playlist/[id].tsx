@@ -21,10 +21,13 @@ import Animated, {
 } from 'react-native-reanimated';
 
 export default function PlaylistScreen() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, from } = useLocalSearchParams<{ id: string; from?: string }>();
   const router = useRouter();
   const navigation = useNavigation();
   const { handleTrackPress } = useTrackPlayer();
+
+  // Determine where to navigate back to
+  const backRoute = from === 'search' ? '/(tabs)/search' : '/(tabs)/home';
 
   // Intercept back gesture and hardware back button
   useEffect(() => {
@@ -32,16 +35,16 @@ export default function PlaylistScreen() {
       // Prevent default behavior
       e.preventDefault();
 
-      // Navigate to home tab instead
-      router.push('/(tabs)/home');
+      // Navigate to the appropriate tab
+      router.push(backRoute);
     });
 
     return unsubscribe;
-  }, [navigation, router]);
+  }, [navigation, router, backRoute]);
 
   const handleBackPress = () => {
-    // Navigate to home tab
-    router.push('/(tabs)/home');
+    // Navigate to the appropriate tab
+    router.push(backRoute);
   };
 
   // Reset scrollY when id changes
