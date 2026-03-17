@@ -97,6 +97,7 @@ export default function ArtistScreen() {
             style={styles.heroBackground}
             contentFit="cover"
             blurRadius={80}
+            cachePolicy="memory-disk"
           />
           <LinearGradient
             colors={['rgba(11, 14, 20, 0.2)', 'rgba(11, 14, 20, 0.7)', '#0B0E14']}
@@ -119,6 +120,7 @@ export default function ArtistScreen() {
                 source={{ uri: artist.picture_big }}
                 style={styles.artistImage}
                 contentFit="cover"
+                cachePolicy="memory-disk"
               />
               <LinearGradient
                 colors={['transparent', 'rgba(0, 0, 0, 0.3)']}
@@ -149,9 +151,13 @@ export default function ArtistScreen() {
 
           {isLoadingTracks ? (
             <ActivityIndicator size="small" color="#FFFFFF" style={styles.loader} />
-          ) : (
+          ) : tracks.length > 0 ? (
             <View style={styles.tracksList}>
               {tracks.map((track, index) => renderTrackItem(track, index))}
+            </View>
+          ) : (
+            <View>
+              <Text className="text-white"> no Popular track found </Text>
             </View>
           )}
         </View>

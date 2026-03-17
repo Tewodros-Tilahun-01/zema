@@ -1,6 +1,7 @@
 import { MusicCardItem } from '@/types/components';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ColorValue, Image, StyleSheet, Text, View } from 'react-native';
+import { ColorValue, StyleSheet, Text, View } from 'react-native';
 
 type MusicCardProps = {
   item: MusicCardItem;
@@ -28,7 +29,7 @@ export default function PlaylistCard({ item, index }: MusicCardProps) {
         style={styles.inner}
       >
         <View style={styles.imageWrapper}>
-          <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+          <Image source={{ uri: item.image }} style={styles.image} contentFit="cover" />
         </View>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
           {item.title}

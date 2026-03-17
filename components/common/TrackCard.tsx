@@ -1,5 +1,6 @@
 import { ProfileCardItem } from '@/types/components';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image } from 'expo-image';
+import { StyleSheet, Text, View } from 'react-native';
 
 type ProfileCardProps = {
   item: ProfileCardItem;
@@ -9,7 +10,7 @@ export default function TrackCard({ item }: ProfileCardProps) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: item.image }} style={styles.image} resizeMode="cover" />
+        <Image source={{ uri: item.image }} style={styles.image} contentFit="cover" />
       </View>
 
       <Text style={styles.songTitle} numberOfLines={1}>

@@ -1,4 +1,5 @@
-import { Image, Pressable, ScrollView, Text } from 'react-native';
+import { Image } from 'expo-image';
+import { Pressable, ScrollView, Text } from 'react-native';
 
 type SearchItem = {
   id: string;
@@ -28,7 +29,7 @@ export function SearchResults({ results, onItemPress }: SearchResultsProps) {
           <Image
             source={{ uri: item.image }}
             className="h-24 w-full rounded-xl"
-            resizeMode="cover"
+            contentFit="cover"
           />
           <Text className="mt-3 text-sm font-semibold text-white">{item.title}</Text>
           <Text className="text-xs text-white/65">{item.subtitle}</Text>

@@ -1,5 +1,6 @@
 import { RecentlyPlayed } from '@/db/schema';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image } from 'expo-image';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type RecentlyPlayedItemProps = {
   track: RecentlyPlayed;

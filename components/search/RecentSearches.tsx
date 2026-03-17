@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image } from 'expo-image';
+import { Pressable, Text, View } from 'react-native';
 
 type SearchItem = {
   id: string;
@@ -39,7 +40,7 @@ export function RecentSearches({
             <Image
               source={{ uri: item.image }}
               className="h-12 w-12 rounded-md"
-              resizeMode="cover"
+              contentFit="cover"
             />
             <View className="ml-3">
               <Text className="text-sm font-semibold text-white">{item.title}</Text>
