@@ -2,6 +2,7 @@ import { ArtistSearchResult, DeezerPlaylist, SearchMode, Track } from '@/types/d
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import TrackItem from '../common/TrackItem';
 
 type SearchResult = Track | ArtistSearchResult | DeezerPlaylist;
 
@@ -12,12 +13,7 @@ type DeezerSearchResultsProps = {
   onResultPress?: (result: SearchResult) => void;
 };
 
-export function DeezerSearchResults({
-  results,
-  mode,
-  onTrackPress,
-  onResultPress,
-}: DeezerSearchResultsProps) {
+export function DeezerSearchResults({ results, mode, onResultPress }: DeezerSearchResultsProps) {
   const router = useRouter();
 
   if (results.length === 0) {
@@ -30,42 +26,9 @@ export function DeezerSearchResults({
       onResultPress(item);
       return;
     }
-
-    // Fallback to default behavior
-    if (mode === 'track' && onTrackPress) {
-      onTrackPress(item as Track);
-    } else if (mode === 'artist') {
-      const artist = item as ArtistSearchResult;
-      // @ts-ignore - Dynamic route
-      router.push(`/(tabs)/artist/${artist.id}?from=search`);
-    } else if (mode === 'playlist') {
-      const playlist = item as DeezerPlaylist;
-      // @ts-ignore - Dynamic route
-      router.push(`/(tabs)/playlist/${playlist.id}?from=search`);
-    }
   };
 
-  const renderTrackItem = (item: Track) => (
-    <Pressable
-      style={styles.trackItem}
-      onPress={() => handlePress(item)}
-      android_ripple={{ color: 'rgba(255, 255, 255, 0.1)' }}
-    >
-      <Image
-        source={{ uri: item.album.cover_medium }}
-        style={styles.trackCover}
-        contentFit="cover"
-      />
-      <View style={styles.trackInfo}>
-        <Text style={styles.trackTitle} numberOfLines={1}>
-          {item.title}
-        </Text>
-        <Text style={styles.trackArtist} numberOfLines={1}>
-          {item.artist.name}
-        </Text>
-      </View>
-    </Pressable>
-  );
+  const renderTrackItem = (item: Track) => <TrackItem track={item} />;
 
   const renderArtistItem = (item: ArtistSearchResult) => (
     <Pressable
@@ -133,17 +96,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.6)',
   },
-  // Track Item (same as RecentlyPlayedItem)
+  // Artist and Playlist items
   trackItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
     backgroundColor: '#0B0E14',
-  },
-  trackCover: {
-    width: 56,
-    height: 56,
-    borderRadius: 8,
   },
   trackInfo: {
     flex: 1,
@@ -159,7 +117,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#8E8E93',
   },
-  // Artist Image (circular)
+  trackCover: {
+    width: 56,
+    height: 56,
+    borderRadius: 8,
+  },
   artistImage: {
     width: 56,
     height: 56,

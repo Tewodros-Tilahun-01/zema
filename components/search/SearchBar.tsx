@@ -33,7 +33,7 @@ export const SearchBar = forwardRef<TextInput, SearchBarProps>(
         />
         {!!value && (
           <Pressable
-            className="ml-2 h-6 w-6 items-center justify-center rounded-full bg-black/10"
+            className="ml-2 h-6 w-12 items-center justify-center rounded-full bg-black/10"
             onPress={onClear}
           >
             <Ionicons name="close" size={14} color="#111827" />

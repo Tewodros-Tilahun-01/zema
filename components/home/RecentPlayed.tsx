@@ -1,7 +1,6 @@
-import RecentlyPlayedItem from '@/components/common/RecentlyPlayedItem';
+import TrackItem from '@/components/common/TrackItem';
 import { clearRecentlyPlayed } from '@/db/queries';
 import { RecentlyPlayed } from '@/db/schema';
-import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { recentlyPlayedToTrack } from '@/utils/trackConverter';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -13,13 +12,7 @@ type RecentPlayedProps = {
 };
 
 export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
-  const { handleTrackPress } = useTrackPlayer();
   const [isClearing, setIsClearing] = useState(false);
-
-  const handlePress = (track: RecentlyPlayed) => {
-    const fullTrack = recentlyPlayedToTrack(track);
-    handleTrackPress(fullTrack);
-  };
 
   const handleClear = () => {
     Alert.alert(
@@ -79,7 +72,7 @@ export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
       <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
       <View className="mt-4 gap-2">
         {tracks.map((track) => (
-          <RecentlyPlayedItem key={track.id} track={track} onPress={handlePress} />
+          <TrackItem key={track.id} track={recentlyPlayedToTrack(track)} />
         ))}
       </View>
     </View>

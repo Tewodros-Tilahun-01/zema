@@ -1,8 +1,8 @@
 import Button from '@/components/common/Button';
+import TrackItem from '@/components/common/TrackItem';
 import PlaylistHeader, { HEADER_HEIGHT } from '@/components/playlist/PlaylistHeader';
 import PlaylistInfo from '@/components/playlist/PlaylistInfo';
 import PlaylistStickyHeader from '@/components/playlist/PlaylistStickyHeader';
-import PlaylistTrackItem from '@/components/playlist/PlaylistTrackItem';
 import { usePlaylist } from '@/hooks/usePlaylist';
 import { usePlaylistTracks } from '@/hooks/usePlaylistTracks';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
@@ -69,8 +69,8 @@ export default function PlaylistScreen() {
   }, [tracksData]);
 
   const renderTrackItem = useCallback(
-    ({ item }: { item: Track }) => <PlaylistTrackItem track={item} onPress={handleTrackPress} />,
-    [handleTrackPress],
+    ({ item }: { item: Track }) => <TrackItem track={item} style={{ paddingHorizontal: 20 }} />,
+    [],
   );
 
   const renderHeader = useCallback(() => {

@@ -41,7 +41,6 @@ export default function SearchScreen() {
 
     // Navigate or play based on type
     if (result.type === 'track') {
-      handleTrackPress(result as Track);
     } else if (result.type === 'artist') {
       router.push(`/(tabs)/artist/${result.id}?from=search`);
     } else if (result.type === 'playlist') {
