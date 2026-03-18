@@ -55,11 +55,15 @@ export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
   return (
     <View className="px-1">
       <View className="flex-row items-center justify-between">
-        <Text className="text-2xl font-semibold text-white">recent played</Text>
+        <View>
+          <Text className="text-2xl font-semibold text-white">recent played</Text>
+          <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
+        </View>
+
         <TouchableOpacity
           onPress={handleClear}
           disabled={isClearing}
-          className="h-7 w-10 items-center justify-center rounded-full bg-white/10"
+          className="mt-1 h-7 w-10 items-center justify-center rounded-full bg-white/10"
           activeOpacity={0.7}
         >
           {isClearing ? (
@@ -69,7 +73,6 @@ export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
           )}
         </TouchableOpacity>
       </View>
-      <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
       <View className="mt-4 gap-2">
         {tracks.map((track) => (
           <TrackItem key={track.id} track={recentlyPlayedToTrack(track)} />
