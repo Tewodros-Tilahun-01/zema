@@ -21,7 +21,7 @@ export default function MyPlaylistScreen() {
 
   const handleCollectionPress = useCallback(
     (collectionId: number) => {
-      router.push(`/(tabs)/my-playlist/${collectionId}`);
+      router.push(`/(tabs)/collection/${collectionId}`);
     },
     [router],
   );

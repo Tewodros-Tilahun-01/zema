@@ -18,8 +18,7 @@ export default function TrendingPlaylists({ data }: TrendingPlaylistsProps) {
     if (isPressed) return;
 
     setIsPressed(true);
-    // Use replace to replace any existing playlist in the stack with 'from=home' parameter
-    router.replace(`/(tabs)/playlist/${playlistId}?from=home` as any);
+    router.push(`/(tabs)/home/playlist/${playlistId}` as any);
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);

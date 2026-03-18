@@ -5,11 +5,9 @@ import PlaylistInfo from '@/components/playlist/PlaylistInfo';
 import PlaylistStickyHeader from '@/components/playlist/PlaylistStickyHeader';
 import { usePlaylist } from '@/hooks/usePlaylist';
 import { usePlaylistTracks } from '@/hooks/usePlaylistTracks';
-import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { Track } from '@/types/deezer';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -20,49 +18,31 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 
-export default function PlaylistScreen() {
-  const { id, from } = useLocalSearchParams<{ id: string; from?: string }>();
+type PlaylistScreenProps = {
+  playlistId: string;
+};
+
+export default function PlaylistScreen({ playlistId }: PlaylistScreenProps) {
   const router = useRouter();
-  const navigation = useNavigation();
-  const { handleTrackPress } = useTrackPlayer();
-
-  // Determine where to navigate back to
-  const backRoute = from === 'search' ? '/(tabs)/search' : '/(tabs)/home';
-
-  // Intercept back gesture and hardware back button
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior
-      e.preventDefault();
-
-      // Navigate to the appropriate tab
-      router.push(backRoute);
-    });
-
-    return unsubscribe;
-  }, [navigation, router, backRoute]);
 
   const handleBackPress = () => {
-    // Navigate to the appropriate tab
-    router.push(backRoute);
+    router.back();
   };
 
-  // Reset scrollY when id changes
   const scrollY = useSharedValue(0);
 
-  // Reset scrollY when navigating back or id changes
   useEffect(() => {
     scrollY.value = 0;
-  }, [id]);
+  }, [playlistId]);
 
-  const { data: playlist, isLoading: isLoadingPlaylist, error } = usePlaylist(id as string);
+  const { data: playlist, isLoading: isLoadingPlaylist, error } = usePlaylist(playlistId);
 
   const {
     data: tracksData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = usePlaylistTracks(id as string);
+  } = usePlaylistTracks(playlistId);
 
   const tracks = useMemo(() => {
     return tracksData?.pages.flatMap((page) => page.data) ?? [];
@@ -93,10 +73,9 @@ export default function PlaylistScreen() {
     }
   };
 
-  // Optimize FlatList performance with getItemLayout
   const getItemLayout = useCallback(
     (_: any, index: number) => ({
-      length: 72, // trackItem height (56px image + 16px padding)
+      length: 72,
       offset: 72 * index,
       index,
     }),
@@ -168,7 +147,7 @@ export default function PlaylistScreen() {
 
       <View>
         <Animated.FlatList
-          key={id}
+          key={playlistId}
           data={tracks}
           renderItem={renderTrackItem}
           keyExtractor={(item) => item.id.toString()}
@@ -177,6 +156,7 @@ export default function PlaylistScreen() {
           onEndReached={loadMore}
           onEndReachedThreshold={0.5}
           getItemLayout={getItemLayout}
+          initialNumToRender={5}
           maxToRenderPerBatch={20}
           removeClippedSubviews={true}
           contentContainerStyle={[styles.listContent, { paddingTop: HEADER_HEIGHT }]}

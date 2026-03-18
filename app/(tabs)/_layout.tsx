@@ -32,7 +32,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="my-playlist"
+        name="collection"
         options={{
           title: 'MY Playlist',
           tabBarIcon: ({ color, size }) => (
@@ -47,30 +47,9 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="library" size={size} color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="My playlist"
-        options={{
-          href: null,
-        }}
-      />
-      <Tabs.Screen
-        name="playlist"
-        options={{
-          href: null,
-          // @ts-ignore
-          unmountOnBlur: true,
-        }}
-      />
+
       <Tabs.Screen
         name="artist"
-        options={{
-          href: null,
-          // @ts-ignore
-          unmountOnBlur: true,
-        }}
-      />
-      <Tabs.Screen
-        name="collection"
         options={{
           href: null,
           // @ts-ignore

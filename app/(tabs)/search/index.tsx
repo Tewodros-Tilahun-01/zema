@@ -42,9 +42,9 @@ export default function SearchScreen() {
     // Navigate or play based on type
     if (result.type === 'track') {
     } else if (result.type === 'artist') {
-      router.push(`/(tabs)/artist/${result.id}?from=search`);
+      router.push(`/(tabs)/search/artist/${result.id}`);
     } else if (result.type === 'playlist') {
-      router.push(`/(tabs)/playlist/${result.id}?from=search`);
+      router.push(`/(tabs)/search/playlist/${result.id}`);
     }
   };
 
