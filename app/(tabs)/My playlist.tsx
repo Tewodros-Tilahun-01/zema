@@ -19,10 +19,12 @@ export default function PlaylistScreen() {
     [createCollection],
   );
 
-  const handleCollectionPress = useCallback((collectionId: number) => {
-    // TODO: Navigate to collection detail screen
-    console.log('Navigate to collection:', collectionId);
-  }, []);
+  const handleCollectionPress = useCallback(
+    (collectionId: number) => {
+      router.push(`/(tabs)/collection/${collectionId}`);
+    },
+    [router],
+  );
 
   return (
     <View className="flex-1 bg-[#0B0E14]">

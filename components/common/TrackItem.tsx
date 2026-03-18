@@ -11,9 +11,18 @@ type TrackItemProps = {
   showOptions?: boolean;
   showRipple?: boolean;
   style?: any;
+  showRemove?: boolean;
+  onRemove?: (trackId: number) => void;
 };
 
-function TrackItem({ track, showOptions = true, showRipple = true, style }: TrackItemProps) {
+function TrackItem({
+  track,
+  showOptions = true,
+  showRipple = true,
+  style,
+  showRemove = false,
+  onRemove,
+}: TrackItemProps) {
   const { handleTrackPress } = useTrackPlayer();
   const showTrackOptions = useTrackOptionsStore((state) => state.showTrackOptions);
 
@@ -23,6 +32,12 @@ function TrackItem({ track, showOptions = true, showRipple = true, style }: Trac
 
   const handleOptionsPress = () => {
     showTrackOptions(track);
+  };
+
+  const handleRemovePress = () => {
+    if (onRemove) {
+      onRemove(track.id);
+    }
   };
 
   return (
@@ -44,18 +59,32 @@ function TrackItem({ track, showOptions = true, showRipple = true, style }: Trac
           {track.artist.name}
         </Text>
       </View>
-      {showOptions && (
-        <Pressable
-          style={styles.optionsButton}
-          onPress={(e) => {
-            e.stopPropagation();
-            handleOptionsPress();
-          }}
-          hitSlop={8}
-        >
-          <Ionicons name="ellipsis-vertical" size={20} color="#8E8E93" />
-        </Pressable>
-      )}
+      <View style={styles.actions}>
+        {showOptions && (
+          <Pressable
+            style={styles.optionsButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleOptionsPress();
+            }}
+            hitSlop={8}
+          >
+            <Ionicons name="ellipsis-vertical" size={20} color="#8E8E93" />
+          </Pressable>
+        )}
+        {showRemove && (
+          <Pressable
+            style={styles.removeButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              handleRemovePress();
+            }}
+            hitSlop={8}
+          >
+            <Ionicons name="trash-outline" size={20} color="#8E8E93" />
+          </Pressable>
+        )}
+      </View>
     </Pressable>
   );
 }
@@ -88,8 +117,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#8E8E93',
   },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  removeButton: {
+    padding: 8,
+  },
   optionsButton: {
     padding: 8,
-    marginLeft: 8,
   },
 });
