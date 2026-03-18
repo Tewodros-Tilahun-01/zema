@@ -5,7 +5,7 @@ import Button from '@/components/common/Button';
 import TrackItem from '@/components/common/TrackItem';
 import { getCollectionById, getCollectionTracks, removeTrackFromCollection } from '@/db/queries';
 import { CollectionTrack } from '@/db/schema';
-import { Track } from '@/types/deezer';
+import { collectionTrackToTrack } from '@/utils/trackConverter';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -61,63 +61,19 @@ export default function CollectionDetailScreen() {
     router.back();
   };
 
-  const convertToTrack = useCallback((collectionTrack: CollectionTrack): Track => {
-    return {
-      id: collectionTrack.trackId,
-      title: collectionTrack.title,
-      title_short: collectionTrack.title,
-      title_version: '',
-      link: '',
-      duration: collectionTrack.duration,
-      rank: 0,
-      explicit_lyrics: false,
-      explicit_content_lyrics: 0,
-      explicit_content_cover: 0,
-      preview: collectionTrack.previewUrl,
-      md5_image: '',
-      position: collectionTrack.position,
-      artist: {
-        id: collectionTrack.artistId,
-        name: collectionTrack.artist,
-        link: '',
-        picture: '',
-        picture_small: '',
-        picture_medium: '',
-        picture_big: '',
-        picture_xl: '',
-        radio: false,
-        tracklist: '',
-        type: 'artist',
-      },
-      album: {
-        id: collectionTrack.albumId,
-        title: collectionTrack.albumTitle,
-        cover: collectionTrack.coverSmall,
-        cover_small: collectionTrack.coverSmall,
-        cover_medium: collectionTrack.coverMedium,
-        cover_big: collectionTrack.coverBig,
-        cover_xl: collectionTrack.coverXl,
-        md5_image: '',
-        tracklist: '',
-        type: 'album',
-      },
-      type: 'track',
-    };
-  }, []);
-
   const coverUrl = useMemo(() => tracks[0]?.coverBig || null, [tracks]);
 
   const renderTrackItem = useCallback(
     ({ item }: { item: CollectionTrack }) => (
       <TrackItem
-        track={convertToTrack(item)}
+        track={collectionTrackToTrack(item)}
         showOptions={true}
         showRemove={true}
         onRemove={handleRemoveTrack}
         style={{ paddingHorizontal: 20 }}
       />
     ),
-    [convertToTrack, handleRemoveTrack],
+    [handleRemoveTrack],
   );
 
   const renderHeader = useCallback(() => {
