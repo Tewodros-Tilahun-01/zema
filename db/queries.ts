@@ -282,6 +282,8 @@ export async function addTrackToCollection(collectionId: number, track: Track) {
       albumId: track.album.id,
       coverSmall: track.album.cover_small,
       coverMedium: track.album.cover_medium,
+      coverBig: track.album.cover_big,
+      coverXl: track.album.cover_xl,
       duration: track.duration,
       previewUrl: track.preview,
       position: maxPosition + 1,

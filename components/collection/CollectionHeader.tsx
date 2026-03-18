@@ -23,14 +23,20 @@ export default function CollectionHeader({ coverUrl, isFavorites }: CollectionHe
     );
   }
 
-  return <Image source={{ uri: coverUrl }} style={styles.headerImage} cachePolicy="memory-disk" />;
+  return (
+    <Image
+      source={{ uri: coverUrl }}
+      contentFit="cover"
+      style={styles.headerImage}
+      cachePolicy="memory-disk"
+    />
+  );
 }
 
 const styles = StyleSheet.create({
   headerImage: {
     width: SCREEN_WIDTH,
     height: HEADER_HEIGHT,
-    resizeMode: 'cover',
   },
   headerPlaceholder: {
     width: SCREEN_WIDTH,

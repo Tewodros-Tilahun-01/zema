@@ -15,6 +15,7 @@ export default function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
       source={{ uri: playlist.picture_big }}
       style={styles.headerImage}
       cachePolicy="memory-disk"
+      contentFit="cover"
     />
   );
 }
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
   headerImage: {
     width: SCREEN_WIDTH,
     height: HEADER_HEIGHT,
-    resizeMode: 'cover',
   },
 });
 

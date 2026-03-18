@@ -95,8 +95,8 @@ export default function CollectionDetailScreen() {
         cover: collectionTrack.coverSmall,
         cover_small: collectionTrack.coverSmall,
         cover_medium: collectionTrack.coverMedium,
-        cover_big: collectionTrack.coverMedium,
-        cover_xl: collectionTrack.coverMedium,
+        cover_big: collectionTrack.coverBig,
+        cover_xl: collectionTrack.coverXl,
         md5_image: '',
         tracklist: '',
         type: 'album',
@@ -105,7 +105,7 @@ export default function CollectionDetailScreen() {
     };
   }, []);
 
-  const coverUrl = useMemo(() => tracks[0]?.coverMedium || null, [tracks]);
+  const coverUrl = useMemo(() => tracks[0]?.coverBig || null, [tracks]);
 
   const renderTrackItem = useCallback(
     ({ item }: { item: CollectionTrack }) => (

@@ -58,6 +58,8 @@ export const collectionTracks = sqliteTable('collection_tracks', {
   albumId: integer('album_id').notNull(),
   coverSmall: text('cover_small').notNull(),
   coverMedium: text('cover_medium').notNull(),
+  coverBig: text('cover_big').notNull(),
+  coverXl: text('cover_xl').notNull(),
   duration: integer('duration').notNull(),
   previewUrl: text('preview_url').notNull(),
   position: integer('position').notNull(),

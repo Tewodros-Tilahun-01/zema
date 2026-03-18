@@ -60,6 +60,8 @@ export async function runMigrations(db: SQLiteDatabase) {
         album_id INTEGER NOT NULL,
         cover_small TEXT NOT NULL,
         cover_medium TEXT NOT NULL,
+        cover_big TEXT NOT NULL,
+        cover_xl TEXT NOT NULL,
         duration INTEGER NOT NULL,
         preview_url TEXT NOT NULL,
         position INTEGER NOT NULL,
