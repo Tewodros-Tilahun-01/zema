@@ -1,6 +1,7 @@
 import PlaylistSelector from '@/components/common/PlaylistSelector';
 import TrackInfoHeader from '@/components/common/TrackInfoHeader';
 import TrackOptionsMenu from '@/components/common/TrackOptionsMenu';
+import { useDownloads } from '@/hooks/useDownloads';
 import { useTrackOptions } from '@/hooks/useTrackOptions';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { useTrackOptionsStore } from '@/store/trackOptionsStore';
@@ -19,7 +20,10 @@ export default function GlobalTrackOptionsBottomSheet() {
   const { handleTrackPress } = useTrackPlayer();
   const { collections, loadCollections, addToFavorites, toggleTrackInCollection } =
     useTrackOptions();
+  const { downloadTrack, isDownloaded } = useDownloads();
   const [showPlaylistSelector, setShowPlaylistSelector] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
   const snapPoints = useMemo(
     () => (showPlaylistSelector ? ['70%'] : ['50%']),
@@ -64,12 +68,34 @@ export default function GlobalTrackOptionsBottomSheet() {
     }
   }, [fullTrack, handleTrackPress, hideTrackOptions]);
 
-  const handleDownload = useCallback(() => {
-    if (fullTrack) {
-      console.log('Download track:', fullTrack.title);
-      hideTrackOptions();
+  const handleDownload = useCallback(async () => {
+    if (fullTrack && !isDownloading) {
+      const trackId = String(fullTrack.id);
+      const alreadyDownloaded = isDownloaded(trackId);
+
+      if (alreadyDownloaded) {
+        console.log('Track already downloaded');
+        hideTrackOptions();
+        return;
+      }
+
+      setIsDownloading(true);
+      setDownloadProgress(0);
+
+      try {
+        await downloadTrack(fullTrack, (progress) => {
+          setDownloadProgress(progress);
+        });
+        console.log('Download complete!');
+        hideTrackOptions();
+      } catch (error) {
+        console.error('Download failed:', error);
+      } finally {
+        setIsDownloading(false);
+        setDownloadProgress(0);
+      }
     }
-  }, [fullTrack, hideTrackOptions]);
+  }, [fullTrack, isDownloading, isDownloaded, downloadTrack, hideTrackOptions]);
 
   const handleAddToPlaylist = useCallback(async () => {
     if (fullTrack) {
@@ -110,17 +136,26 @@ export default function GlobalTrackOptionsBottomSheet() {
     setShowPlaylistSelector(false);
   }, []);
 
-  const options = useMemo(
-    () => [
+  const options = useMemo(() => {
+    const trackId = fullTrack ? String(fullTrack.id) : '';
+    const downloaded = fullTrack ? isDownloaded(trackId) : false;
+    const downloadIcon = downloaded ? 'checkmark-circle' : 'download-outline';
+
+    return [
       {
         icon: 'play' as const,
         label: 'Play now',
         onPress: handlePlayNow,
       },
       {
-        icon: 'download-outline' as const,
-        label: 'Download',
+        icon: downloadIcon as 'checkmark-circle' | 'download-outline',
+        label: isDownloading
+          ? `Downloading ${Math.round(downloadProgress * 100)}%`
+          : downloaded
+            ? 'Downloaded'
+            : 'Download',
         onPress: handleDownload,
+        disabled: isDownloading || downloaded,
       },
       {
         icon: 'list' as const,
@@ -132,9 +167,17 @@ export default function GlobalTrackOptionsBottomSheet() {
         label: 'Add to favorite',
         onPress: handleAddToFavorite,
       },
-    ],
-    [handlePlayNow, handleDownload, handleAddToPlaylist, handleAddToFavorite],
-  );
+    ];
+  }, [
+    handlePlayNow,
+    handleDownload,
+    handleAddToPlaylist,
+    handleAddToFavorite,
+    isDownloading,
+    downloadProgress,
+    fullTrack,
+    isDownloaded,
+  ]);
 
   return (
     <BottomSheetModal

@@ -5,6 +5,9 @@ export async function runMigrations(db: SQLiteDatabase) {
     await db.execAsync(`
       PRAGMA journal_mode = WAL;
       
+      -- Migration: Update downloads table schema
+      -- Drop old downloads table if it exists with old schema
+      DROP TABLE IF EXISTS downloads;
       CREATE TABLE IF NOT EXISTS recently_played (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         track_id INTEGER NOT NULL UNIQUE,
@@ -72,6 +75,28 @@ export async function runMigrations(db: SQLiteDatabase) {
       CREATE INDEX IF NOT EXISTS idx_collection_tracks_collection_id ON collection_tracks(collection_id);
       CREATE INDEX IF NOT EXISTS idx_collection_tracks_track_id ON collection_tracks(track_id);
       CREATE INDEX IF NOT EXISTS idx_collection_tracks_position ON collection_tracks(position);
+      
+      CREATE TABLE IF NOT EXISTS downloads (
+        id TEXT PRIMARY KEY,
+        track_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        artist TEXT NOT NULL,
+        artist_id INTEGER NOT NULL,
+        album_title TEXT NOT NULL,
+        album_id INTEGER NOT NULL,
+        cover_small TEXT NOT NULL,
+        cover_medium TEXT NOT NULL,
+        cover_big TEXT NOT NULL,
+        cover_xl TEXT NOT NULL,
+        duration INTEGER NOT NULL,
+        local_uri TEXT NOT NULL,
+        remote_url TEXT NOT NULL,
+        downloaded_at INTEGER NOT NULL,
+        file_size INTEGER NOT NULL
+      );
+      
+      CREATE INDEX IF NOT EXISTS idx_downloads_downloaded_at ON downloads(downloaded_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_downloads_track_id ON downloads(track_id);
     `);
     console.log('✅ Database migrations completed successfully');
   } catch (error) {

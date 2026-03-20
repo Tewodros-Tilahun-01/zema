@@ -422,3 +422,76 @@ export async function getFavoritesCollectionId() {
     return null;
   }
 }
+
+// Downloads Queries
+export async function getAllDownloads() {
+  try {
+    const { downloads } = await import('./schema');
+    return await db.select().from(downloads).orderBy(desc(downloads.downloadedAt));
+  } catch (error) {
+    console.error('Error fetching downloads:', error);
+    return [];
+  }
+}
+
+export async function getDownloadById(id: string) {
+  try {
+    const { downloads } = await import('./schema');
+    const result = await db.select().from(downloads).where(eq(downloads.id, id)).limit(1);
+    return result[0] || null;
+  } catch (error) {
+    console.error('Error fetching download:', error);
+    return null;
+  }
+}
+
+export async function saveDownload(download: {
+  id: string;
+  trackId: number;
+  title: string;
+  artist: string;
+  artistId: number;
+  albumTitle: string;
+  albumId: number;
+  coverSmall: string;
+  coverMedium: string;
+  coverBig: string;
+  coverXl: string;
+  duration: number;
+  localUri: string;
+  remoteUrl: string;
+  fileSize: number;
+}) {
+  try {
+    const { downloads } = await import('./schema');
+    await db
+      .insert(downloads)
+      .values({
+        ...download,
+        downloadedAt: Date.now(),
+      })
+      .onConflictDoUpdate({
+        target: downloads.id,
+        set: {
+          localUri: download.localUri,
+          fileSize: download.fileSize,
+          downloadedAt: Date.now(),
+        },
+      });
+    return true;
+  } catch (error) {
+    console.error('Error saving download:', error);
+    return false;
+  }
+}
+
+export async function deleteDownload(id: string) {
+  try {
+    const { downloads } = await import('./schema');
+    await db.delete(downloads).where(eq(downloads.id, id));
+    return true;
+  } catch (error) {
+    console.error('Error deleting download:', error);
+    return false;
+  }
+}

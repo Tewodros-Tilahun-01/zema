@@ -1,4 +1,4 @@
-import { CollectionTrack, RecentlyPlayed } from '@/db/schema';
+import { CollectionTrack, Download, RecentlyPlayed } from '@/db/schema';
 import { Track } from '@/types/deezer';
 
 export function recentlyPlayedToTrack(recent: RecentlyPlayed): Track {
@@ -81,6 +81,50 @@ export function collectionTrackToTrack(collectionTrack: CollectionTrack): Track 
       cover_medium: collectionTrack.coverMedium,
       cover_big: collectionTrack.coverBig,
       cover_xl: collectionTrack.coverXl,
+      md5_image: '',
+      tracklist: '',
+      type: 'album',
+    },
+    type: 'track',
+  };
+}
+
+export function downloadToTrack(download: Download): Track {
+  return {
+    id: download.trackId,
+    title: download.title,
+    title_short: download.title,
+    title_version: '',
+    link: '',
+    duration: download.duration,
+    rank: 0,
+    explicit_lyrics: false,
+    explicit_content_lyrics: 0,
+    explicit_content_cover: 0,
+    preview: download.localUri, // Use local file instead of remote URL
+    md5_image: '',
+    position: 0,
+    artist: {
+      id: download.artistId,
+      name: download.artist,
+      link: '',
+      picture: '',
+      picture_small: '',
+      picture_medium: '',
+      picture_big: '',
+      picture_xl: '',
+      radio: false,
+      tracklist: '',
+      type: 'artist',
+    },
+    album: {
+      id: download.albumId,
+      title: download.albumTitle,
+      cover: download.coverMedium,
+      cover_small: download.coverSmall,
+      cover_medium: download.coverMedium,
+      cover_big: download.coverBig,
+      cover_xl: download.coverXl,
       md5_image: '',
       tracklist: '',
       type: 'album',

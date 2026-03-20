@@ -68,3 +68,26 @@ export const collectionTracks = sqliteTable('collection_tracks', {
 
 export type CollectionTrack = typeof collectionTracks.$inferSelect;
 export type NewCollectionTrack = typeof collectionTracks.$inferInsert;
+
+// Downloads
+export const downloads = sqliteTable('downloads', {
+  id: text('id').primaryKey(), // trackId as string
+  trackId: integer('track_id').notNull(), // Deezer track ID
+  title: text('title').notNull(),
+  artist: text('artist').notNull(),
+  artistId: integer('artist_id').notNull(),
+  albumTitle: text('album_title').notNull(),
+  albumId: integer('album_id').notNull(),
+  coverSmall: text('cover_small').notNull(),
+  coverMedium: text('cover_medium').notNull(),
+  coverBig: text('cover_big').notNull(),
+  coverXl: text('cover_xl').notNull(),
+  duration: integer('duration').notNull(),
+  localUri: text('local_uri').notNull(),
+  remoteUrl: text('remote_url').notNull(),
+  downloadedAt: integer('downloaded_at').notNull(),
+  fileSize: integer('file_size').notNull(),
+});
+
+export type Download = typeof downloads.$inferSelect;
+export type NewDownload = typeof downloads.$inferInsert;

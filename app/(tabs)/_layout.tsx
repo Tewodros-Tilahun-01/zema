@@ -43,17 +43,8 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="library"
         options={{
-          title: 'Library',
-          tabBarIcon: ({ color, size }) => <Ionicons name="library" size={size} color={color} />,
-        }}
-      />
-
-      <Tabs.Screen
-        name="artist"
-        options={{
-          href: null,
-          // @ts-ignore
-          unmountOnBlur: true,
+          title: 'Downloads',
+          tabBarIcon: ({ color, size }) => <Ionicons name="download" size={size} color={color} />,
         }}
       />
     </Tabs>
