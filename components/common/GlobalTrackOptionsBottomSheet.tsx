@@ -38,6 +38,7 @@ export default function GlobalTrackOptionsBottomSheet() {
         appearsOnIndex={0}
         opacity={0.5}
         pressBehavior="close"
+        style={[props.style, { zIndex: 200 }]}
       />
     ),
     [],
@@ -189,7 +190,7 @@ export default function GlobalTrackOptionsBottomSheet() {
       backgroundStyle={styles.bottomSheetBackground}
       handleIndicatorStyle={styles.handleIndicator}
       enablePanDownToClose={true}
-      containerStyle={{ zIndex: 200 }}
+      containerStyle={{ zIndex: 2001 }}
     >
       <BottomSheetView style={styles.contentContainer}>
         {fullTrack && (
@@ -215,7 +216,7 @@ export default function GlobalTrackOptionsBottomSheet() {
 
 const styles = StyleSheet.create({
   bottomSheetBackground: {
-    backgroundColor: '#1A1D23',
+    backgroundColor: '#121212',
   },
   handleIndicator: {
     backgroundColor: '#8E8E93',

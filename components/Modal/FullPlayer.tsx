@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 101,
+    zIndex: 100,
   },
   backdrop: {
     position: 'absolute',
