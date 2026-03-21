@@ -52,6 +52,7 @@ export function useDownloads() {
           const fileInfo = await DownloadManager.getTrackFileInfo(record.localUri);
           if (fileInfo.exists) {
             validRecords.push(record);
+          } else {
           }
         }
       }

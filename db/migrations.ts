@@ -4,10 +4,6 @@ export async function runMigrations(db: SQLiteDatabase) {
   try {
     await db.execAsync(`
       PRAGMA journal_mode = WAL;
-      
-      -- Migration: Update downloads table schema
-      -- Drop old downloads table if it exists with old schema
-      DROP TABLE IF EXISTS downloads;
       CREATE TABLE IF NOT EXISTS recently_played (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         track_id INTEGER NOT NULL UNIQUE,
@@ -76,6 +72,7 @@ export async function runMigrations(db: SQLiteDatabase) {
       CREATE INDEX IF NOT EXISTS idx_collection_tracks_track_id ON collection_tracks(track_id);
       CREATE INDEX IF NOT EXISTS idx_collection_tracks_position ON collection_tracks(position);
       
+      -- Create downloads table with new schema
       CREATE TABLE IF NOT EXISTS downloads (
         id TEXT PRIMARY KEY,
         track_id INTEGER NOT NULL,

@@ -4,6 +4,7 @@ import { db } from './client';
 import {
   collections,
   collectionTracks,
+  downloads,
   NewRecentlyPlayed,
   NewRecentSearch,
   recentlyPlayed,
@@ -426,7 +427,6 @@ export async function getFavoritesCollectionId() {
 // Downloads Queries
 export async function getAllDownloads() {
   try {
-    const { downloads } = await import('./schema');
     return await db.select().from(downloads).orderBy(desc(downloads.downloadedAt));
   } catch (error) {
     console.error('Error fetching downloads:', error);
@@ -436,7 +436,6 @@ export async function getAllDownloads() {
 
 export async function getDownloadById(id: string) {
   try {
-    const { downloads } = await import('./schema');
     const result = await db.select().from(downloads).where(eq(downloads.id, id)).limit(1);
     return result[0] || null;
   } catch (error) {
@@ -463,7 +462,6 @@ export async function saveDownload(download: {
   fileSize: number;
 }) {
   try {
-    const { downloads } = await import('./schema');
     await db
       .insert(downloads)
       .values({
@@ -487,7 +485,6 @@ export async function saveDownload(download: {
 
 export async function deleteDownload(id: string) {
   try {
-    const { downloads } = await import('./schema');
     await db.delete(downloads).where(eq(downloads.id, id));
     return true;
   } catch (error) {
