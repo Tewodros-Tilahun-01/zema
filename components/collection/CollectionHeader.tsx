@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -11,7 +12,9 @@ type CollectionHeaderProps = {
 };
 
 export default function CollectionHeader({ coverUrl, isFavorites }: CollectionHeaderProps) {
-  if (!coverUrl) {
+  const [hasError, setHasError] = useState(false);
+
+  if (!coverUrl || hasError) {
     return (
       <View style={styles.headerPlaceholder}>
         <Ionicons
@@ -29,6 +32,7 @@ export default function CollectionHeader({ coverUrl, isFavorites }: CollectionHe
       contentFit="cover"
       style={styles.headerImage}
       cachePolicy="memory-disk"
+      onError={() => setHasError(true)}
     />
   );
 }

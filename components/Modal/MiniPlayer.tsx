@@ -2,6 +2,7 @@ import Button from '@/components/common/Button';
 import { usePlayerStore } from '@/store/playerStore';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -24,6 +25,8 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
 
   const translateX = useSharedValue(0);
   const opacity = useSharedValue(1);
+
+  const [hasImageError, setHasImageError] = React.useState(false);
 
   if (!currentTrack) return null;
 
@@ -71,11 +74,18 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
         <Animated.View style={[styles.wrapper, animatedStyle]}>
           <Button style={styles.container} onPress={onExpand} pressedScale={0.98}>
             <View style={styles.content}>
-              <Image
-                source={{ uri: currentTrack.album.cover_medium }}
-                cachePolicy="memory-disk"
-                style={styles.artwork}
-              />
+              {hasImageError ? (
+                <View style={styles.artworkPlaceholder}>
+                  <Ionicons name="musical-notes" size={24} color="rgba(255, 255, 255, 0.3)" />
+                </View>
+              ) : (
+                <Image
+                  source={{ uri: currentTrack.album.cover_medium }}
+                  cachePolicy="memory-disk"
+                  style={styles.artwork}
+                  onError={() => setHasImageError(true)}
+                />
+              )}
               <View style={styles.info}>
                 <Text style={styles.title} numberOfLines={1}>
                   {currentTrack.title}
@@ -123,6 +133,14 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 8,
     backgroundColor: '#2C2C2E',
+  },
+  artworkPlaceholder: {
+    width: 48,
+    height: 48,
+    borderRadius: 8,
+    backgroundColor: '#2C2C2E',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   info: {
     flex: 1,
