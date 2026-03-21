@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { NetworkAlert } from '@/components/common/NetworkAlert';
 import GlobalTrackOptionsBottomSheet from '../components/common/GlobalTrackOptionsBottomSheet';
 import { PlayerManager } from '../components/player/PlayerManager';
 import { migrateDbIfNeeded } from '../config/db';
@@ -29,6 +30,7 @@ export default function RootLayout() {
                 }}
               />
               <PlayerManager />
+              <NetworkAlert />
             </SQLiteProvider>
           </QueryClientProvider>
         </PortalProvider>

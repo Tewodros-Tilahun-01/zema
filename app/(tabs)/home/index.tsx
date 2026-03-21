@@ -47,7 +47,7 @@ export default function HomeScreen() {
         }
       >
         <View className="mt-2">
-          {isLoadingPlaylists ? (
+          {isLoadingPlaylists || !trendingPlaylists ? (
             <TrendingPlaylistsSkeleton />
           ) : (
             <TrendingPlaylists data={trendingPlaylists || []} />
@@ -55,7 +55,11 @@ export default function HomeScreen() {
         </View>
 
         <View className="mt-8">
-          {isLoadingTracks ? <TopTracksSkeleton /> : <TopTracks data={topTracks || []} />}
+          {isLoadingTracks || !topTracks ? (
+            <TopTracksSkeleton />
+          ) : (
+            <TopTracks data={topTracks || []} />
+          )}
         </View>
 
         <View className="mt-8">
