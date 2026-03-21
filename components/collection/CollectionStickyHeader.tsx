@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     zIndex: 10,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   safeArea: {
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   headerBar: {
     flexDirection: 'row',

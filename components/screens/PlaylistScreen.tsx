@@ -106,7 +106,7 @@ export default function PlaylistScreen({ playlistId }: PlaylistScreenProps) {
       Extrapolation.CLAMP,
     );
     return {
-      backgroundColor: `rgba(11, 14, 20, ${opacity})`,
+      backgroundColor: `rgba(18, 18, 18, ${opacity})`,
     };
   });
 
@@ -173,17 +173,17 @@ export default function PlaylistScreen({ playlistId }: PlaylistScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'center',
   },
   errorContainer: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,

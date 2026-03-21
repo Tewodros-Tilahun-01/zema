@@ -10,9 +10,9 @@ type DynamicBackgroundProps = {
 };
 
 const DEFAULT_COLORS = {
-  top: '#0B0E14',
-  middle: '#0B0E14',
-  bottom: '#0B0E14',
+  top: '#121212',
+  middle: '#121212',
+  bottom: '#121212',
 };
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);

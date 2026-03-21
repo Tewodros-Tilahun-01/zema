@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   miniPlayerContainer: {
     position: 'absolute',
     bottom: 85,
-    paddingVertical: 4, // Above tab bar
     left: 0,
     right: 0,
     backgroundColor: '#1C1C1E',

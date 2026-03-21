@@ -26,9 +26,6 @@ export function PlayerControls() {
 
   return (
     <View style={styles.controls}>
-      <Pressable style={styles.ghostIcon}>
-        <Ionicons name="heart-outline" size={20} color="#C9CBD8" />
-      </Pressable>
       <Pressable onPress={() => jumpBy(-10)} style={styles.mediaAction}>
         <Ionicons name="play-back" size={22} color="#FFFFFF" />
       </Pressable>
@@ -38,9 +35,6 @@ export function PlayerControls() {
       <Pressable onPress={() => jumpBy(10)} style={styles.mediaAction}>
         <Ionicons name="play-forward" size={22} color="#FFFFFF" />
       </Pressable>
-      <Pressable style={styles.ghostIcon}>
-        <Ionicons name="heart-outline" size={20} color="#C9CBD8" />
-      </Pressable>
     </View>
   );
 }
@@ -48,6 +42,7 @@ export function PlayerControls() {
 const styles = StyleSheet.create({
   controls: {
     marginTop: 32,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

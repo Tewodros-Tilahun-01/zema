@@ -28,7 +28,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View className="flex-1 bg-[#0B0E14]">
+    <View className="flex-1 bg-[#121212]">
       <SafeAreaView />
 
       <ScrollView

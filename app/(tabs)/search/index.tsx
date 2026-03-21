@@ -71,7 +71,7 @@ export default function SearchScreen() {
   );
 
   return (
-    <View className="-mb-8 flex-1 bg-[#0B0E14]">
+    <View className="-mb-8 flex-1 bg-[#121212]">
       <SafeAreaView />
 
       <SearchHeader

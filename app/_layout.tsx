@@ -6,6 +6,7 @@ import { SQLiteProvider } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { NetworkAlert } from '@/components/common/NetworkAlert';
+import { theme } from '@/config/theme';
 import GlobalTrackOptionsBottomSheet from '../components/common/GlobalTrackOptionsBottomSheet';
 import { PlayerManager } from '../components/player/PlayerManager';
 import { migrateDbIfNeeded } from '../config/db';
@@ -26,7 +27,7 @@ export default function RootLayout() {
               <Stack
                 screenOptions={{
                   headerShown: false,
-                  contentStyle: { backgroundColor: '#0B0E14' },
+                  contentStyle: { backgroundColor: theme.colors.background },
                 }}
               />
               <PlayerManager />

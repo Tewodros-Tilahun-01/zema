@@ -64,14 +64,14 @@ export default function LibraryScreen() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-[#0B0E14]">
+      <View className="flex-1 items-center justify-center bg-[#121212]">
         <ActivityIndicator size="large" color="#7A58FF" />
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-[#0B0E14]">
+    <View className="flex-1 bg-[#121212]">
       <SafeAreaView />
 
       <View className="px-5 py-4">

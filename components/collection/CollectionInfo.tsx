@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     paddingBottom: 18,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   titleRow: {
     flexDirection: 'row',

@@ -9,9 +9,9 @@ type ColorResult = {
 };
 
 const DEFAULT_COLORS: ColorResult = {
-  primary: '#0B0E14',
-  secondary: '#0B0E14',
-  background: '#0B0E14',
+  primary: '#121212',
+  secondary: '#121212',
+  background: '#121212',
 };
 
 export function useImageColors(imageUri: string | null) {

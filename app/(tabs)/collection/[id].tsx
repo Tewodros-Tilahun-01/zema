@@ -114,7 +114,7 @@ export default function CollectionDetailScreen() {
       Extrapolation.CLAMP,
     );
     return {
-      backgroundColor: `rgba(11, 14, 20, ${opacity})`,
+      backgroundColor: `rgba(18, 18, 18, ${opacity})`,
     };
   });
 
@@ -177,17 +177,17 @@ export default function CollectionDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'center',
   },
   errorContainer: {
     flex: 1,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,

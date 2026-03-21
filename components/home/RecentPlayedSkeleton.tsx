@@ -7,7 +7,7 @@ export default function RecentPlayedSkeleton() {
       <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
       <View className="mt-4 gap-2">
         {[1, 2, 3].map((i) => (
-          <View key={i} className="flex-row items-center bg-[#0B0E14] py-2">
+          <View key={i} className="flex-row items-center bg-[#121212] py-2">
             <View className="h-14 w-14 animate-pulse rounded-lg bg-white/10" />
             <View className="ml-3 flex-1">
               <View className="mb-2 h-4 w-3/4 animate-pulse rounded bg-white/10" />

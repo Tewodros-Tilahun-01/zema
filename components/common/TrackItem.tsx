@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
-    backgroundColor: '#0B0E14',
+    backgroundColor: '#121212',
   },
   trackCover: {
     width: 56,

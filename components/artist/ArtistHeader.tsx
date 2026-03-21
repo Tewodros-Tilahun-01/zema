@@ -30,7 +30,7 @@ export default function ArtistHeader({
         cachePolicy="memory-disk"
       />
       <LinearGradient
-        colors={['rgba(11, 14, 20, 0.2)', 'rgba(11, 14, 20, 0.7)', '#0B0E14']}
+        colors={['rgba(18, 18, 18, 0.2)', 'rgba(18, 18, 18, 0.7)', '#121212']}
         style={styles.heroGradient}
       />
 

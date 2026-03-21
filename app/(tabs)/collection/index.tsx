@@ -27,7 +27,7 @@ export default function MyPlaylistScreen() {
   );
 
   return (
-    <View className="flex-1 bg-[#0B0E14]">
+    <View className="flex-1 bg-[#121212]">
       <SafeAreaView edges={['top']} />
 
       {/* Header */}

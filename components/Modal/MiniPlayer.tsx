@@ -98,7 +98,7 @@ export function MiniPlayer({ onExpand }: MiniPlayerProps) {
 
 const styles = StyleSheet.create({
   wrapper2: {
-    backgroundColor: '#2a2929',
+    backgroundColor: '#121212',
     width: '100%',
   },
   wrapper: {
