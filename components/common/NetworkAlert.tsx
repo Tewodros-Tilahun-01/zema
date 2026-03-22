@@ -21,7 +21,7 @@ export const NetworkAlert = () => {
       translateY.value = withTiming(-100, { duration: 300 });
       opacity.value = withTiming(0, { duration: 300 });
     }
-  }, [showAlert]);
+  }, [showAlert, translateY, opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],

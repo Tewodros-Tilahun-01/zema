@@ -29,7 +29,7 @@ export default function CollectionDetailScreen() {
 
   useEffect(() => {
     scrollY.value = 0;
-  }, [id]);
+  }, [id, scrollY]);
 
   const fetchData = useCallback(async () => {
     if (!id) return;

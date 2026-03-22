@@ -8,7 +8,7 @@ type MusicCardProps = {
   index: number;
 };
 
-const GRADIENTS: ReadonlyArray<readonly [ColorValue, ColorValue, ColorValue]> = [
+const GRADIENTS: readonly (readonly [ColorValue, ColorValue, ColorValue])[] = [
   ['rgba(43, 33, 130, 0.55)', 'rgba(97, 90, 255, 0.7)', 'rgba(144, 125, 255, 0.85)'],
   ['rgba(0, 120, 104, 0.55)', 'rgba(0, 182, 161, 0.7)', 'rgba(64, 219, 198, 0.85)'],
   ['rgba(150, 92, 20, 0.55)', 'rgba(218, 150, 60, 0.7)', 'rgba(255, 196, 110, 0.85)'],

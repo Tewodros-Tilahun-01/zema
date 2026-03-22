@@ -33,7 +33,7 @@ export default function PlaylistScreen({ playlistId }: PlaylistScreenProps) {
 
   useEffect(() => {
     scrollY.value = 0;
-  }, [playlistId]);
+  }, [playlistId, scrollY]);
 
   const { data: playlist, isLoading: isLoadingPlaylist, error } = usePlaylist(playlistId);
 

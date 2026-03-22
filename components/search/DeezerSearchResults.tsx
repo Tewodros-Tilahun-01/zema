@@ -1,6 +1,5 @@
 import { ArtistSearchResult, DeezerPlaylist, SearchMode, Track } from '@/types/deezer';
 import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import TrackItem from '../common/TrackItem';
 
@@ -14,8 +13,6 @@ type DeezerSearchResultsProps = {
 };
 
 export function DeezerSearchResults({ results, mode, onResultPress }: DeezerSearchResultsProps) {
-  const router = useRouter();
-
   if (results.length === 0) {
     return <Text style={styles.noResults}>No results found.</Text>;
   }
