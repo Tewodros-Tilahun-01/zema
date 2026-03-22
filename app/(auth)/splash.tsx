@@ -1,12 +1,10 @@
 import { initializeFavoritesCollection } from '@/db/queries';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { useSQLiteContext } from 'expo-sqlite';
 import { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 export default function SplashScreen() {
-  const db = useSQLiteContext();
-
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -31,8 +29,12 @@ export default function SplashScreen() {
   }, []);
 
   return (
-    <View className="z-120 flex-1 items-center justify-center bg-black">
-      <Text className="text-2xl font-semibold text-white">Splash</Text>
+    <View className="z-120 flex-1 items-center justify-center bg-[#121212]">
+      <Image
+        source={require('@/assets/images/MusicLoader.gif')}
+        style={{ width: 200, height: 200 }}
+        contentFit="contain"
+      />
     </View>
   );
 }
