@@ -1,3 +1,4 @@
+import { AboutDeveloperModal } from '@/components/common/AboutDeveloperModal';
 import { useDownloads } from '@/hooks/useDownloads';
 import { useTrackPlayer } from '@/hooks/useTrackPlayer';
 import { downloadToTrack } from '@/utils/trackConverter';
@@ -20,6 +21,7 @@ export default function LibraryScreen() {
   const { handleTrackPress } = useTrackPlayer();
   const [refreshing, setRefreshing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
   // Refresh when screen comes into focus
   useFocusEffect(
@@ -74,13 +76,22 @@ export default function LibraryScreen() {
     <View className="flex-1 bg-[#121212]">
       <SafeAreaView />
 
-      <View className="px-5 py-4">
-        <Text className="text-2xl font-semibold text-white">Downloads</Text>
-        <Text className="mt-1 text-sm text-white/60">
-          {downloads.length} {downloads.length === 1 ? 'track' : 'tracks'}
-        </Text>
+      <View className="flex-row items-center justify-between px-5 pt-4 pb-1">
+        <View className="flex-1">
+          <Text className="text-2xl font-semibold text-white">Downloads</Text>
+        </View>
+        <Pressable
+          onPress={() => setShowAboutModal(true)}
+          className="h-9 w-9 items-center justify-center rounded-full bg-white/10 align-middle"
+        >
+          <Ionicons name="information-circle-outline" size={22} color="#fff" />
+        </Pressable>
       </View>
 
+      <AboutDeveloperModal visible={showAboutModal} onClose={() => setShowAboutModal(false)} />
+      <Text className="px-5 pb-6 text-sm text-white/60">
+        {downloads.length} {downloads.length === 1 ? 'track' : 'tracks'}
+      </Text>
       {downloads.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
           <Ionicons name="cloud-download-outline" size={64} color="rgba(255,255,255,0.3)" />
