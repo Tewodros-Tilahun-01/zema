@@ -1,9 +1,4 @@
-import {
-  createCollection,
-  deleteCollection,
-  getAllCollections,
-  initializeFavoritesCollection,
-} from '@/db/queries';
+import { createCollection, deleteCollection, getAllCollections } from '@/db/queries';
 import { useCallback, useEffect, useState } from 'react';
 
 export function useCollections() {
@@ -12,7 +7,7 @@ export function useCollections() {
 
   const fetchCollections = useCallback(async () => {
     setIsLoading(true);
-    await initializeFavoritesCollection();
+
     const data = await getAllCollections();
     setCollections(data);
     setIsLoading(false);

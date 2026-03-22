@@ -57,8 +57,18 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   },
 
   playTrack: (track) => {
+    const { currentTrack, player } = get();
     console.log('🎵 Playing track:', track.title);
-    set({ currentTrack: track, isPlaying: true, currentTime: 0 });
+
+    // If same track is already playing, restart it
+    if (currentTrack?.id === track.id && player) {
+      console.log('🔄 Restarting current track');
+      player.seekTo(0);
+      player.play();
+      set({ currentTime: 0, isPlaying: true });
+    } else {
+      set({ currentTrack: track, isPlaying: true, currentTime: 0 });
+    }
 
     // Save to recently played
     saveRecentlyPlayed(track).catch((error) => {

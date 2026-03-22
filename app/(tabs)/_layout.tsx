@@ -13,7 +13,7 @@ export default function TabsLayout() {
           height: 80,
           paddingTop: 10,
         },
-        tabBarActiveTintColor: '#E8E9F1',
+        tabBarActiveTintColor: '#14B8A6',
         tabBarInactiveTintColor: 'gray',
       }}
     >
