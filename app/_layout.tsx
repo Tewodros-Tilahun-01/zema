@@ -5,6 +5,7 @@ import { Stack } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { ApiErrorAlert } from '@/components/common/ApiErrorAlert';
 import { NetworkAlert } from '@/components/common/NetworkAlert';
 import { theme } from '@/config/theme';
 import GlobalTrackOptionsBottomSheet from '../components/common/GlobalTrackOptionsBottomSheet';
@@ -32,6 +33,7 @@ export default function RootLayout() {
               />
               <PlayerManager />
               <NetworkAlert />
+              <ApiErrorAlert />
             </SQLiteProvider>
           </QueryClientProvider>
         </PortalProvider>
