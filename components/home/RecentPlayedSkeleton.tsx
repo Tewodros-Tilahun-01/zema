@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 export default function RecentPlayedSkeleton() {
   return (
     <View className="px-1">
-      <Text className="text-2xl font-semibold text-white">recent played</Text>
+      <Text className="text-2xl font-semibold text-white">Recent played</Text>
       <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
       <View className="mt-4 gap-2">
         {[1, 2, 3].map((i) => (

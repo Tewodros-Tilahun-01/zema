@@ -44,7 +44,7 @@ export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
   if (tracks.length === 0) {
     return (
       <View className="px-1">
-        <Text className="text-2xl font-semibold text-white">recent played</Text>
+        <Text className="text-2xl font-semibold text-white">Recent played</Text>
         <Text className="mt-8 text-center text-sm text-white/60">
           No recently played tracks yet
         </Text>
@@ -56,7 +56,7 @@ export default function RecentPlayed({ tracks, onRefresh }: RecentPlayedProps) {
     <View className="px-1">
       <View className="flex-row items-center justify-between">
         <View>
-          <Text className="text-2xl font-semibold text-white">recent played</Text>
+          <Text className="text-2xl font-semibold text-white">Recent played</Text>
           <Text className="mt-1 text-xs text-white/60">Based on your recent listens</Text>
         </View>
 
