@@ -14,7 +14,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LibraryScreen() {
   const { downloads, isLoading, deleteTrack, refresh } = useDownloads();
@@ -74,9 +73,7 @@ export default function LibraryScreen() {
 
   return (
     <View className="flex-1 bg-[#121212]">
-      <SafeAreaView />
-
-      <View className="flex-row items-center justify-between px-5 pt-4 pb-1">
+      <View className="flex-row items-center justify-between px-5 pt-6 pb-1">
         <View className="flex-1">
           <Text className="text-2xl font-semibold text-white">Downloads</Text>
         </View>

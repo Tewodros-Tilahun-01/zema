@@ -74,7 +74,7 @@ export default function ArtistHeader({
 
 const styles = StyleSheet.create({
   heroSection: {
-    height: 420,
+    height: 400,
     position: 'relative',
   },
   heroBackground: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   headerBar: {
     position: 'absolute',
-    top: 50,
+    top: 30,
     left: 0,
     right: 0,
     flexDirection: 'row',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   artistInfo: {
     position: 'absolute',

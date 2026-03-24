@@ -17,7 +17,7 @@ export const SearchBar = forwardRef<TextInput, SearchBarProps>(function SearchBa
 ) {
   return (
     <Pressable
-      className="mb-5 flex-row items-center rounded-full bg-white px-4 py-2"
+      className="mt-4 mb-5 flex-row items-center rounded-full bg-white px-4 py-2"
       onPress={() => (ref as any)?.current?.focus()}
     >
       <Ionicons name="search" size={18} color="#111827" />

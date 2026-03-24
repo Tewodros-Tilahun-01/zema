@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   topSafeArea: {
     position: 'absolute',
-    top: 25,
+    top: 12,
     left: 0,
     zIndex: 11,
   },
@@ -222,10 +222,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 16,
-    marginTop: 8,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    marginTop: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderRadius: 20,
-    opacity: 0.4,
+    opacity: 0.8,
   },
   parallaxHeader: {
     position: 'absolute',

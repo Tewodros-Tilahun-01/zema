@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MyPlaylistScreen() {
   const router = useRouter();
@@ -28,12 +27,10 @@ export default function MyPlaylistScreen() {
 
   return (
     <View className="flex-1 bg-[#121212]">
-      <SafeAreaView edges={['top']} />
-
       {/* Header */}
       <View className="px-5 pt-6 pb-4">
         <View className="flex-row items-center justify-between">
-          <Text className="text-3xl font-bold text-white">My Playlists</Text>
+          <Text className="text-2xl font-bold text-white">My Playlists</Text>
           <Pressable
             onPress={() => setModalVisible(true)}
             className="h-10 w-10 items-center justify-center rounded-full bg-white/10 active:bg-white/20"

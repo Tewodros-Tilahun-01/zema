@@ -9,7 +9,6 @@ import { useTopTracks } from '@/hooks/useTopTracks';
 import { useTrendingPlaylists } from '@/hooks/useTrendingPlaylists';
 import { useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const {
@@ -29,8 +28,6 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 bg-[#121212]">
-      <SafeAreaView />
-
       <ScrollView
         className="flex-1 gap-1"
         contentContainerClassName="px-5 pb-12"

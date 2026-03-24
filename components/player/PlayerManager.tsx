@@ -1,6 +1,7 @@
 import { usePlayerStore } from '@/store/playerStore';
 import { useEffect, useState } from 'react';
-import { BackHandler, StyleSheet, View } from 'react-native';
+import { BackHandler, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { FullPlayer } from '../Modal/FullPlayer';
 import { MiniPlayer } from '../Modal/MiniPlayer';
 
@@ -37,10 +38,10 @@ export function PlayerManager() {
 
   return (
     <>
-      {/* Mini Player - Fixed at bottom above tabs */}
-      <View style={styles.miniPlayerContainer}>
+      <SafeAreaView edges={['bottom']} style={styles.miniPlayerContainer}>
+        {/* Mini Player - Fixed at bottom above tabs */}
         <MiniPlayer onExpand={handleExpand} />
-      </View>
+      </SafeAreaView>
 
       {/* Full Player - Portal overlay with its own DynamicBackground */}
       <FullPlayer isVisible={isFullPlayerVisible} onCollapse={handleCollapse} />
@@ -54,15 +55,6 @@ const styles = StyleSheet.create({
     bottom: 85,
     left: 0,
     right: 0,
-    backgroundColor: '#1C1C1E',
     zIndex: 100,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
   },
 });

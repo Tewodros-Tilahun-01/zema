@@ -33,7 +33,7 @@ export function SearchHeader({
   return (
     <View className="px-5">
       {!isSearchActive && !isGenreActive && (
-        <View className="mt-2 mb-5 flex-row items-center justify-between">
+        <View className="mt-2 flex-row items-center justify-between">
           <Text className="text-3xl font-bold text-white">Search</Text>
         </View>
       )}

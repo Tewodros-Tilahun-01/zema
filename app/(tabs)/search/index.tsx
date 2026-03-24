@@ -14,7 +14,6 @@ import { ArtistSearchResult, DeezerPlaylist, SearchMode, Track } from '@/types/d
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
 import { BackHandler, ScrollView, Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SearchScreen() {
   const inputRef = useRef<TextInput>(null);
@@ -23,7 +22,7 @@ export default function SearchScreen() {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const { handleTrackPress } = useTrackPlayer();
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 300);
   const { data: deezerResults = [], isLoading } = useDeezerSearch(debouncedQuery, searchMode);
   const { data: genreTracks = [], isLoading: isLoadingGenre } = useGenreSearch(selectedGenre);
   const { data: recentSearches = [], clearAll, removeSearch, refresh } = useRecentSearches();
@@ -71,9 +70,7 @@ export default function SearchScreen() {
   );
 
   return (
-    <View className="-mb-8 flex-1 bg-[#121212]">
-      <SafeAreaView />
-
+    <View className="flex-1 bg-[#121212]">
       <SearchHeader
         isSearchActive={isSearchActive}
         isGenreActive={isGenreActive}

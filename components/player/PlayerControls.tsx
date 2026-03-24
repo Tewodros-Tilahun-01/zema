@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     backgroundColor: '#FFFFFF',
     shadowColor: '#A38BFF',
-    shadowOpacity: 0.55,
+    shadowOpacity: 0.8,
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
-    elevation: 12,
+    elevation: 20,
   },
 });

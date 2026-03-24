@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   tracksSection: {
     paddingHorizontal: 20,
     paddingTop: 30,
-    paddingBottom: 100,
+    paddingBottom: 20,
   },
   sectionHeader: {
     marginBottom: 20,
