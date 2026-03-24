@@ -2,10 +2,21 @@
 
 A modern React Native music streaming application built with Expo, featuring offline playback, playlist management, and a beautiful UI
 
+## 📲 Download
+
+<div align="center">
+  <a href="https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/application-fd7196b0-6698-4cc5-ad64-ab1a3ae4a42b.apk">
+    <img src="./assets/images/icon.png" alt="zema Icon" width="120" height="120" />
+  </a>
+  
+  ### [⬇️ Download APK (v1.0.0)](https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/application-fd7196b0-6698-4cc5-ad64-ab1a3ae4a42b.apk)
+  
+  **Compatible with most Android devices**
+</div>
+
 ## Features
 
 - 🎵 Stream music from Deezer API
-- 📱 Cross-platform support (iOS, Android, Web)
 - 🎨 Beautiful UI with dark mode support
 - 💾 Offline downloads and playback
 - 📚 Create and manage playlists
@@ -14,22 +25,6 @@ A modern React Native music streaming application built with Expo, featuring off
 - 📊 Recently played tracks
 - ⭐ Favorites collection
 - 🎭 Dynamic theme colors from album artwork
-
-## 📥 Download
-
-<div align="center">
-
-### Get Zema on Your Device
-
-| Platform       | Status      | Download                                                                         |
-| -------------- | ----------- | -------------------------------------------------------------------------------- |
-| 🤖 **Android** | Available   | [Download APK](https://expo.dev/accounts/tewodrostilahun01/projects/zema/builds) |
-| 🍎 **iOS**     | Coming Soon | [TestFlight](#)                                                                  |
-| 🌐 **Web**     | Beta        | [Launch App](#)                                                                  |
-
-> **Note**: For Android, you may need to enable "Install from Unknown Sources" in your device settings.
-
-</div>
 
 ---
 
@@ -52,11 +47,18 @@ A modern React Native music streaming application built with Expo, featuring off
 
 ## 📸 Screenshots
 
-<div align="center">
-  <img src="./assets/images/MusicLoader.gif" alt="Loading Animation" width="200" />
-  
-  *More screenshots coming soon*
-</div>
+<table align="center">
+  <tr>
+    <td><img src="./assets/images/Screenshot2.jpg" width="200"/></td>
+    <td><img src="./assets/images/Screenshot3.jpg" width="200"/></td>
+    <td><img src="./assets/images/Screenshot4.jpg" width="200"/></td>
+  </tr>
+  <tr>
+    <td><img src="./assets/images/Screenshot5.jpg" width="200"/></td>
+    <td><img src="./assets/images/Screenshot6.jpg" width="200"/></td>
+    <td><img src="./assets/images/Screenshot7.jpg" width="200"/></td>
+  </tr>
+</table>
 
 ---
 
@@ -262,7 +264,6 @@ eas build --platform ios
 
 - **State Management**: Centralized player state with Zustand (`playerStore.ts`)
 - **Playback Control**: Custom hook `useTrackPlayer` for audio operations
-- **Features**: Play, pause, skip, shuffle, repeat, queue management
 - **Background Audio**: Continues playing when app is minimized
 
 ### 💾 Offline-First Architecture
@@ -411,7 +412,7 @@ This project is private and proprietary.
 
 **Tewodros Tilahun**
 
-- GitHub: [@tewodrostilahun01](https://github.com/tewodrostilahun01)
+- GitHub: [@Tewodros-Tilahun-01](https://github.com/Tewodros-Tilahun-01)
 - Email: tewodrostilahun.dev@gmail.com
 
 ---
@@ -427,7 +428,7 @@ This project is private and proprietary.
 
 <div align="center">
   
-  **Made with ❤️ and ☕**
+  **Made with ❤️**
   
   If you found this project helpful, please consider giving it a ⭐
   
