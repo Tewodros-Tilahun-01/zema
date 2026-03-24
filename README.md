@@ -5,11 +5,11 @@ A modern React Native music streaming application built with Expo, featuring off
 ## 📲 Download
 
 <div align="center">
-  <a href="https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/application-fd7196b0-6698-4cc5-ad64-ab1a3ae4a42b.apk">
+  <a href="https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/zema.apk">
     <img src="./assets/images/icon.png" alt="zema Icon" width="120" height="120" />
   </a>
   
-  ### [⬇️ Download APK (v1.0.0)](https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/application-fd7196b0-6698-4cc5-ad64-ab1a3ae4a42b.apk)
+  ### [⬇️ Download APK (v1.0.0)](https://github.com/Tewodros-Tilahun-01/zema/releases/download/v1.0.0/zema.apk)
   
   **Compatible with most Android devices**
 </div>
